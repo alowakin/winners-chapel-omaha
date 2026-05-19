@@ -161,7 +161,7 @@ This project is open source under the MIT License. See LICENSE file for details.
 ## 👨‍💻 Developer
 
 **Isaac** - Full-stack developer based in Omaha, NE
-- GitHub: [YOUR_GITHUB_USERNAME](https://github.com/alowakin)
+- GitHub: [Isaac Dossavou](https://github.com/alowakin)
 - LinkedIn: https://www.linkedin.com/in/isaac-dossavou-1970b8191
 
 ---
