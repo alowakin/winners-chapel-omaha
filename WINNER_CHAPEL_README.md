@@ -140,16 +140,6 @@ winner-chapel-website/
 - [ ] Mobile responsive on phone/tablet
 - [ ] All links navigate correctly
 
-## Future Enhancements
-
-- [ ] Email notifications for event registrations
-- [ ] Event categories/filtering
-- [ ] User account dashboard (track my registrations)
-- [ ] Payment integration for ticketed events
-- [ ] Calendar view for events
-- [ ] Social media sharing
-- [ ] Multi-language support
-
 ## Contributing
 
 This is a portfolio project. For suggestions or improvements, feel free to open an issue or contact the developer.
@@ -162,13 +152,7 @@ This project is open source under the MIT License. See LICENSE file for details.
 
 **Isaac** - Full-stack developer based in Omaha, NE
 - GitHub: [Isaac Dossavou](https://github.com/alowakin)
-- LinkedIn: https://www.linkedin.com/in/isaac-dossavou-1970b8191
-
----
-
-## About Winner Chapel
-
-Winner Chapel is [add a brief mission statement or description about the chapel].
+- LinkedIn: [Isaac Dossavou] (https://www.linkedin.com/in/isaac-dossavou-1970b8191)
 
 ---
 
