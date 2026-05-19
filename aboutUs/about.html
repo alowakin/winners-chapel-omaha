@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About Us — Winner Chapel at Omaha</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
+  <style>
+    :root{
+      --red:#8B0000; --red-bright:#B22222; --red-light:#f9f0f0;
+      --cream:#faf7f2; --cream-dark:#f0ebe2; --white:#ffffff;
+      --text:#2c2c2c; --text-mid:#555; --text-light:#888;
+      --border:#e2d9ce; --gold:#9a7635;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;padding-top:104px}
+
+    /* ── DOUBLE NAV ── */
+    .nav-wrapper{position:fixed;top:0;left:0;right:0;z-index:100}
+    .nav-top{background:#f0ebe2;border-bottom:1px solid #e2d9ce;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:36px}
+    .nav-top-address{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.04em;color:#888}
+    .nav-top-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-top-links a{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .2s}
+    .nav-top-links a:hover{color:#8B0000}
+    nav{background:rgba(255,255,255,.98);border-bottom:1px solid #e2d9ce;box-shadow:0 2px 14px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px}
+    .nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+    .nav-logo img{height:42px;width:auto}
+    .nav-logo-text{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;color:#2c2c2c;line-height:1.2}
+    .nav-logo-text span{color:#8B0000}
+    .nav-links{display:flex;align-items:center;gap:2.2rem;list-style:none}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .22s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#8B0000;transition:width .3s}
+    .nav-links a:hover,.nav-links a.active{color:#8B0000}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{background:#8B0000!important;color:#fff!important;padding:.48rem 1.3rem;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .22s}
+    .nav-cta:hover{background:#B22222!important} .nav-cta::after{display:none!important}
+
+    /* ── PAGE HERO ── */
+    .page-hero{height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:linear-gradient(170deg,var(--cream) 0%,var(--cream-dark) 100%);border-bottom:1px solid var(--border)}
+    .page-hero::before{content:'ABOUT';position:absolute;font-family:'Playfair Display',serif;font-size:16rem;font-weight:800;color:rgba(139,0,0,.04);letter-spacing:.1em;bottom:-2rem;pointer-events:none}
+    .eyebrow{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem;display:block}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4rem);font-weight:800;color:var(--text)}
+    .page-hero h1 span{color:var(--red)}
+    .breadcrumb{margin-top:.8rem;font-size:.73rem;color:var(--text-light)}
+    .breadcrumb a{color:var(--red);text-decoration:none}
+
+    /* ── SHARED SECTION STYLES ── */
+    .section-label{font-family:'Inter',sans-serif;font-size:.63rem;font-weight:600;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--text);line-height:1.15}
+    .section-title span{color:var(--red)}
+    .section-line{width:45px;height:2px;background:var(--red);margin:1rem 0 2rem}
+
+    /* ── STORY SECTION ── */
+    .story{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:6rem 2rem}
+    .story-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center}
+    .story-text p{font-size:.93rem;line-height:1.9;color:var(--text-mid);margin-bottom:1.1rem}
+    .story-quote{border-left:3px solid var(--red);padding:1.1rem 1.5rem;background:var(--red-light);font-style:italic;font-size:.9rem;color:var(--text-mid);line-height:1.8;margin-top:1.5rem}
+    .story-quote cite{display:block;margin-top:.5rem;font-style:normal;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold)}
+    .story-image{width:100%;aspect-ratio:4/3;background:var(--cream-dark);border:1px solid var(--border);overflow:hidden;position:relative}
+    .story-image img{width:100%;height:100%;object-fit:cover}
+    .story-image-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;color:var(--text-light)}
+    .story-image-placeholder svg{width:48px;height:48px;fill:var(--border)}
+    .story-image-placeholder span{font-size:.75rem;letter-spacing:.1em;text-transform:uppercase}
+
+    /* ── VALUES ── */
+    .values{padding:6rem 2rem;background:var(--cream-dark)}
+    .values-inner{max-width:1100px;margin:0 auto}
+    .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem;margin-top:0}
+    .value-card{background:var(--white);border:1px solid var(--border);padding:2rem 1.8rem;position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s}
+    .value-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+    .value-card:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+    .value-card:hover::before{transform:scaleX(1)}
+    .value-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:rgba(139,0,0,.08);line-height:1;margin-bottom:.5rem}
+    .value-title{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+    .value-desc{font-size:.83rem;color:var(--text-mid);line-height:1.8}
+
+    /* ── PASTORS SECTION ── */
+    .pastors{padding:6rem 2rem;background:var(--white);border-top:1px solid var(--border)}
+    .pastors-inner{max-width:1100px;margin:0 auto}
+    .pastors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.8rem;margin-top:0}
+
+    .pastor-card{background:var(--cream);border:1px solid var(--border);overflow:hidden;transition:transform .28s,box-shadow .28s}
+    .pastor-card:hover{transform:translateY(-5px);box-shadow:0 10px 35px rgba(0,0,0,.1)}
+
+    /* Photo area */
+    .pastor-photo{width:100%;aspect-ratio:3/4;background:var(--cream-dark);border-bottom:1px solid var(--border);overflow:hidden;position:relative;cursor:pointer}
+    .pastor-photo img{width:100%;height:100%;object-fit:cover;display:block}
+    .pastor-photo-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.8rem;color:var(--text-light);background:var(--cream-dark)}
+    .pastor-photo-placeholder svg{width:52px;height:52px;fill:var(--border)}
+    .pastor-photo-placeholder span{font-family:'Inter',sans-serif;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-light)}
+
+    /* Upload overlay */
+    .photo-upload-overlay{position:absolute;inset:0;background:rgba(139,0,0,.75);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.5rem;opacity:0;transition:opacity .25s;cursor:pointer}
+    .pastor-photo:hover .photo-upload-overlay{opacity:1}
+    .photo-upload-overlay svg{width:28px;height:28px;fill:#fff}
+    .photo-upload-overlay span{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#fff}
+    .photo-input{display:none}
+
+    /* Card body */
+    .pastor-body{padding:1.5rem 1.6rem}
+    .pastor-role{font-family:'Inter',sans-serif;font-size:.62rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:.35rem}
+    .pastor-name{font-family:'Playfair Display',serif;font-size:1.15rem;font-weight:700;color:var(--text);margin-bottom:.6rem}
+    .pastor-bio{font-family:'Inter',sans-serif;font-size:.8rem;color:var(--text-mid);line-height:1.75}
+
+    /* ── STATS BAND ── */
+    .stats-band{background:var(--red);padding:4rem 2rem}
+    .stats-inner{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:2rem;text-align:center}
+    .stat-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:800;color:#fff;line-height:1}
+    .stat-label{font-family:'Inter',sans-serif;font-size:.7rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-top:.4rem}
+
+    /* ── CTA ── */
+    .cta-band{background:var(--cream-dark);border-top:1px solid var(--border);padding:5rem 2rem;text-align:center}
+    .cta-band h2{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:var(--text);margin-bottom:.7rem}
+    .cta-band h2 span{color:var(--red)}
+    .cta-band p{font-family:'Inter',sans-serif;font-size:.9rem;color:var(--text-mid);margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.8}
+    .btn-red{background:var(--red);color:#fff;border:none;padding:.9rem 2.4rem;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:background .22s,transform .2s}
+    .btn-red:hover{background:var(--red-bright);transform:translateY(-2px)}
+
+    /* ── FOOTER ── */
+    footer{background:#2c2222;color:rgba(255,255,255,.55);padding:4rem 2rem 2rem}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+    .footer-brand .logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff}
+    .footer-brand .logo span{color:#e87070}
+    .footer-brand p{margin-top:.9rem;font-size:.78rem;line-height:1.8;color:rgba(255,255,255,.4)}
+    .footer-col h4{font-family:'Inter',sans-serif;font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:#c9a46a;margin-bottom:1rem}
+    .footer-col ul{list-style:none}
+    .footer-col ul li{margin-bottom:.5rem}
+    .footer-col ul li a{font-size:.78rem;color:rgba(255,255,255,.4);text-decoration:none;transition:color .22s}
+    .footer-col ul li a:hover{color:#e87070}
+    .footer-bottom{max-width:1100px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;font-size:.7rem;color:rgba(255,255,255,.2)}
+
+    /* ── SOCIAL FIXED ── */
+    .social-fixed{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:.4rem}
+    .sf-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.2);transition:transform .22s,opacity .22s;opacity:.88}
+    .sf-btn:hover{transform:scale(1.12);opacity:1}
+    .sf-btn svg{width:18px;height:18px;fill:#fff}
+    .sf-facebook{background:#1877F2}
+    .sf-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+    .sf-youtube{background:#FF0000}
+    .sf-tiktok{background:#010101}
+    .sf-twitter{background:#000}
+    .sf-email{background:#8B0000}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── HAMBURGER ── */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:6px;z-index:201}
+    .hamburger span{display:block;width:24px;height:2px;background:#2c2c2c;border-radius:1px;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    /* ── MOBILE MENU ── */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+    .mobile-overlay.open{display:block}
+    .mobile-panel{position:fixed;top:0;right:0;width:min(300px,85vw);height:100%;background:#fff;z-index:160;padding:90px 2rem 2rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.15);overflow-y:auto}
+    .mobile-panel.open{transform:translateX(0)}
+    .mobile-panel a{font-size:.88rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#2c2c2c;text-decoration:none;padding:1rem 0;border-bottom:1px solid #e2d9ce;transition:color .2s;display:block}
+    .mobile-panel a:hover{color:#8B0000}
+    .mobile-cta-link{margin-top:1.5rem;background:#8B0000;color:#fff!important;text-align:center;padding:1rem!important;border:none!important}
+    .mobile-cta-link:hover{background:#B22222!important}
+    .mobile-address{font-size:.75rem;color:#888;margin-top:auto;padding-top:1.5rem;border-top:1px solid #e2d9ce;line-height:1.8}
+    @media(max-width:900px){
+      .nav-top{display:none} nav{padding:0 1.2rem} .nav-links{display:none}
+      .hamburger{display:flex}
+      .social-fixed{bottom:1rem;right:.8rem}
+      .story-inner{grid-template-columns:1fr}
+      .pastors-grid{grid-template-columns:1fr 1fr}
+      .stats-inner{grid-template-columns:1fr 1fr}
+      .footer-inner{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:600px){
+      .pastors-grid{grid-template-columns:1fr}
+      .stats-inner{grid-template-columns:1fr 1fr}
+      .footer-inner{grid-template-columns:1fr}
+      .footer-bottom{flex-direction:column;gap:.5rem}
+    }
+  </style>
+</head>
+<body>
+
+<!-- DOUBLE NAV -->
+<div class="nav-wrapper">
+  <div class="nav-top">
+    <span class="nav-top-address">2450 N 72nd Street, Omaha, NE 68134</span>
+    <ul class="nav-top-links">
+      <li><a href="../foundationClass/foundationClass.html">Foundation Class</a></li>
+      <li><a href="../aboutUs/about.html" style="color:#8B0000">About Us</a></li>
+      <li><a href="../socialMediaConnect/follow.html">Stay in Touch</a></li>
+      <li><a href="tel:+14025550192">(402) 555-0192</a></li>
+    </ul>
+  </div>
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <img src="../Image/LogoOmaha.jpg" alt="Winner Chapel at Omaha"/>
+      <span class="nav-logo-text">Winner Chapel <span>at Omaha</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../churchEvents/events.html">Events</a></li>
+      <li><a href="../houseFellowship/houseFellowship.html">House Fellowship</a></li>
+      <li><a href="../donation/give.html" class="nav-cta">Give</a></li>
+    </ul>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-panel" id="mobilePanel">
+  <a href="../index.html">Home</a>
+  <a href="../churchEvents/events.html">Events</a>
+  <a href="../houseFellowship/houseFellowship.html">House Fellowship</a>
+  <a href="../foundationClass/foundationClass.html">Foundation Class</a>
+  <a href="../aboutUs/about.html">About Us</a>
+  <a href="../donation/give.html" class="mobile-cta-link">Give Online</a>
+  <div class="mobile-address">2450 N 72nd Street, Omaha, NE 68134<br/>(402) 555-0192</div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <span class="eyebrow">Our Story</span>
+  <h1>About <span>Us</span></h1>
+  <div class="breadcrumb"><a href="../index.html">Home</a> &nbsp;/&nbsp; About Us</div>
+</div>
+
+<!-- STORY SECTION -->
+<section class="story">
+  <div class="story-inner">
+    <div class="story-text">
+      <span class="section-label">Who We Are</span>
+      <h2 class="section-title">Our <span>Story</span></h2>
+      <div class="section-line"></div>
+      <p>Winner Chapel at Omaha is a local assembly of Living Faith Church Worldwide — a global ministry founded by Bishop David Oyedepo, one of Africa's most influential Christian leaders. Our mandate flows directly from an 18-hour vision received from the Lord: to liberate mankind in all facets of human existence.</p>
+      <p>We are a Spirit-filled, Word-based church committed to preaching the undiluted gospel of Jesus Christ. From our home in Omaha, Nebraska, we reach into our community and across the nations with the message of faith, healing, and restoration.</p>
+      <p>Every service is a supernatural encounter — whether you come broken, searching, or ready to grow, you will leave transformed by the power of God's Word.</p>
+      <blockquote class="story-quote">
+        "The hour has come to liberate the world from all oppressions of the devil, through the preaching of the word of faith."
+        <cite>Luke 4:18–19 &nbsp;|&nbsp; Matthew 10:1–8</cite>
+      </blockquote>
+    </div>
+    <div class="story-image">
+      <!-- Replace src with your actual church photo -->
+      <img src="../Image/CoverPhoto.png" alt="Winner Chapel at Omaha" onerror="this.parentElement.innerHTML='<div class=\'story-image-placeholder\'><svg viewBox=\'0 0 24 24\'><path d=\'M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z\'/></svg><span>Church Photo</span></div>'"/>
+    </div>
+  </div>
+</section>
+
+<!-- CORE VALUES -->
+<section class="values">
+  <div class="values-inner">
+    <span class="section-label">What We Believe</span>
+    <h2 class="section-title">Our Core <span>Values</span></h2>
+    <div class="section-line"></div>
+    <div class="values-grid">
+      <div class="value-card"><div class="value-num">01</div><div class="value-title">The Word of God</div><div class="value-desc">We are a Word-based church. Every sermon, every service, every decision flows from the infallible Word of God. We believe the Bible is the final authority in all matters of life and faith.</div></div>
+      <div class="value-card"><div class="value-num">02</div><div class="value-title">Prayer & Worship</div><div class="value-desc">We are a house of prayer. From the Covenant Hour of Prayer at 5:30 AM to our Sunday Upper Room Prayer, intercession is the backbone of everything we do.</div></div>
+      <div class="value-card"><div class="value-num">03</div><div class="value-title">Faith That Works</div><div class="value-desc">We believe in a living, active faith. Not just a mental agreement with scripture, but a faith that produces miracles, healing, and deliverance in daily life.</div></div>
+      <div class="value-card"><div class="value-num">04</div><div class="value-title">Community & Fellowship</div><div class="value-desc">We are stronger together. Through our House Fellowship groups and church family, we build lasting relationships rooted in love and mutual accountability.</div></div>
+      <div class="value-card"><div class="value-num">05</div><div class="value-title">Generosity & Giving</div><div class="value-desc">We honor God with our finances. Tithing, offering, and sowing into missions are acts of worship that release blessing and advance the Kingdom of God.</div></div>
+      <div class="value-card"><div class="value-num">06</div><div class="value-title">Reaching the Nations</div><div class="value-desc">Omaha is our home but the world is our mission field. We send, support, and pray for gospel work across every nation — until every knee bows.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stats-inner">
+    <div><div class="stat-num">18h</div><div class="stat-label">Founding Vision</div></div>
+    <div><div class="stat-num">4+</div><div class="stat-label">House Fellowship Groups</div></div>
+    <div><div class="stat-num">100+</div><div class="stat-label">Nations Reached</div></div>
+    <div><div class="stat-num">1</div><div class="stat-label">Sunday Service</div></div>
+  </div>
+</div>
+
+<!-- PASTORAL TEAM -->
+<section class="pastors">
+  <div class="pastors-inner">
+    <span class="section-label">Leadership</span>
+    <h2 class="section-title">Meet Our <span>Pastors</span></h2>
+    <div class="section-line"></div>
+    <div class="pastors-grid">
+
+      <!-- Pastor 1 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-1').click()">
+          <img id="img-1" src="" alt="Pastor 1" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-1">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-1" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-1','placeholder-1')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Senior Pastor</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+      <!-- Pastor 2 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-2').click()">
+          <img id="img-2" src="" alt="Pastor 2" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-2">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-2" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-2','placeholder-2')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Associate Pastor</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+      <!-- Pastor 3 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-3').click()">
+          <img id="img-3" src="" alt="Pastor 3" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-3">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-3" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-3','placeholder-3')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Youth Pastor</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+      <!-- Pastor 4 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-4').click()">
+          <img id="img-4" src="" alt="Pastor 4" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-4">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-4" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-4','placeholder-4')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Women's Ministry</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+      <!-- Pastor 5 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-5').click()">
+          <img id="img-5" src="" alt="Pastor 5" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-5">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-5" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-5','placeholder-5')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Men's Ministry</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+      <!-- Pastor 6 -->
+      <div class="pastor-card">
+        <div class="pastor-photo" onclick="document.getElementById('photo-6').click()">
+          <img id="img-6" src="" alt="Pastor 6" style="display:none"/>
+          <div class="pastor-photo-placeholder" id="placeholder-6">
+            <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+            <span>Click to add photo</span>
+          </div>
+          <div class="photo-upload-overlay">
+            <svg viewBox="0 0 24 24"><path d="M9 16h6v-6h4l-7-7-7 7h4v6zm-4 2h14v2H5v-2z"/></svg>
+            <span>Upload Photo</span>
+          </div>
+          <input type="file" id="photo-6" class="photo-input" accept="image/*" onchange="loadPhoto(this,'img-6','placeholder-6')"/>
+        </div>
+        <div class="pastor-body">
+          <div class="pastor-role">Children's Ministry</div>
+          <div class="pastor-name">Pastor [First Name] [Last Name]</div>
+          <p class="pastor-bio">Placeholder bio — replace with the pastor's story, ministry background, and vision for the church. Keep it warm and personal, 2–3 sentences.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Come Worship <span>With Us</span></h2>
+  <p>We would love to have you join our family. Every Sunday at 8:00 AM and 9:00 AM — come as you are.</p>
+  <a href="../churchEvents/events.html" class="btn-red">View Upcoming Events</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Winner Chapel <span>at Omaha</span></div>
+      <p>Liberating mankind in all facets of human existence through the preaching of the word of faith.</p>
+    </div>
+    <div class="footer-col"><h4>Navigate</h4><ul>
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../churchEvents/events.html">Events</a></li>
+      <li><a href="../foundationClass/foundationClass.html">Foundation Class</a></li>
+      <li><a href="../socialMediaConnect/follow.html">Stay in Touch</a></li>
+      <li><a href="about.html">About Us</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Service Times</h4><ul>
+      <li><a href="#">Sunday 8:00 AM</a></li>
+      <li><a href="#">Sunday 9:00 AM</a></li>
+      <li><a href="#">MidWeek — 6:00 PM</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Give</h4><ul>
+      <li><a href="../donation/give.html">Online Giving</a></li>
+      <li><a href="../donation/give.html">Tithes & Offerings</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>2025 Winner Chapel at Omaha. All rights reserved.</span>
+    <span>Built with faith</span>
+  </div>
+</footer>
+
+<!-- SOCIAL FIXED ICONS -->
+<div class="social-fixed">
+  <a href="https://youtube.com/@WinnerChapelOmaha" target="_blank" class="sf-btn sf-youtube" title="YouTube">
+    <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+  </a>
+  <a href="https://instagram.com/winnerschapelomaha" target="_blank" class="sf-btn sf-instagram" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.5.1-4.8C2.4 3.9 3.9 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+  </a>
+  <a href="https://tiktok.com/@winnerschapelomaha" target="_blank" class="sf-btn sf-tiktok" title="TikTok">
+    <svg viewBox="0 0 24 24"><path d="M19.6 3.3A4.5 4.5 0 0 1 15.1 0h-3.3v15.6a2.6 2.6 0 0 1-2.6 2.2 2.6 2.6 0 0 1-2.6-2.6 2.6 2.6 0 0 1 2.6-2.6c.3 0 .5 0 .8.1V9.3a6 6 0 0 0-.8-.1 5.9 5.9 0 0 0-5.9 5.9 5.9 5.9 0 0 0 5.9 5.9 5.9 5.9 0 0 0 5.9-5.9V8.1a7.8 7.8 0 0 0 4.5 1.4V6.2a4.5 4.5 0 0 1-3-2.9z"/></svg>
+  </a>
+  <a href="https://twitter.com/WinnerChapelNE" target="_blank" class="sf-btn sf-twitter" title="Twitter / X">
+    <svg viewBox="0 0 24 24"><path d="M18.3 0h3.5l-7.6 8.7L23 24h-7L10.6 15.6 4.4 24H.9l8.1-9.3L0 0h7.2l5.5 7.3L18.3 0zm-1.2 21.6h1.9L6.9 2h-2L17.1 21.6z"/></svg>
+  </a>
+  <a href="https://facebook.com/WinnerChapelOmaha" target="_blank" class="sf-btn sf-facebook" title="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1C0 18.1 4.4 23 10.1 24v-8.4H7.1v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3H15.8c-1.5 0-2 .9-2 1.9v2.3h3.4l-.5 3.5h-2.9V24C19.6 23 24 18.1 24 12.1z"/></svg>
+  </a>
+  <a href="mailto:info@winnerschapel.org" class="sf-btn sf-email" title="Email Us">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const mobilePanel = document.getElementById('mobilePanel');
+  function openMenu(){hamburgerBtn.classList.add('open');mobileOverlay.classList.add('open');mobilePanel.classList.add('open');document.body.style.overflow='hidden'}
+  function closeMenu(){hamburgerBtn.classList.remove('open');mobileOverlay.classList.remove('open');mobilePanel.classList.remove('open');document.body.style.overflow=''}
+  hamburgerBtn.addEventListener('click',()=>hamburgerBtn.classList.contains('open')?closeMenu():openMenu());
+  mobileOverlay.addEventListener('click',closeMenu);
+</script>
+<script>
+  // Photo upload handler — shows the image when file is selected
+  function loadPhoto(input, imgId, placeholderId) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      const img = document.getElementById(imgId);
+      img.src = e.target.result;
+      img.style.display = 'block';
+      document.getElementById(placeholderId).style.display = 'none';
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
+</body>
+</html>

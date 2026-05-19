@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Living Faith Church Worldwide at Omaha</title>
+  
+  <style>
+    :root {
+      --red:#8B0000; --red-bright:#B22222; --red-light:#f9f0f0;
+      --cream:#faf7f2; --cream-dark:#f0ebe2; --white:#ffffff;
+      --text:#2c2c2c; --text-mid:#555555; --text-light:#888888;
+      --border:#e2d9ce; --gold:#9a7635;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Raleway',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+    /* ── DOUBLE NAV ── */
+    .nav-wrapper{position:fixed;top:0;left:0;right:0;z-index:100}
+
+    /* Top bar */
+    .nav-top{
+      background:var(--cream-dark);
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 3rem;height:34px;
+    }
+    .nav-top-address{font-size:.68rem;letter-spacing:.08em;color:var(--text-light)}
+    .nav-top-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-top-links a{font-size:.65rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .2s}
+    .nav-top-links a:hover{color:var(--red)}
+
+    /* Main bar */
+    nav{
+      background:rgba(255,255,255,.98);
+      border-bottom:1px solid var(--border);
+      box-shadow:0 2px 14px rgba(0,0,0,.07);
+      display:flex;align-items:center;justify-content:space-between;
+      padding:0 3rem;height:68px;
+    }
+    .nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+    .nav-logo img{height:42px;width:auto}
+    .nav-logo-text{font-family:'Cinzel',serif;font-size:.95rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--text);line-height:1.2}
+    .nav-logo-text span{color:var(--red)}
+    .nav-links{display:flex;align-items:center;gap:2.2rem;list-style:none}
+    .nav-links a{font-size:.72rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--text-mid);text-decoration:none;transition:color .22s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--red);transition:width .3s}
+    .nav-links a:hover{color:var(--red)} .nav-links a:hover::after{width:100%}
+    .nav-cta{background:var(--red)!important;color:#fff!important;padding:.5rem 1.4rem;font-family:'Raleway',sans-serif;font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .22s}
+    .nav-cta:hover{background:var(--red-bright)!important} .nav-cta::after{display:none!important}
+
+    /* ── HERO SLIDER ── */
+    .hero{
+      min-height:100vh; position:relative; overflow:hidden;
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      text-align:center; padding-top:102px; padding-bottom:5rem; padding-left:2rem; padding-right:2rem;
+    }
+
+    /* Slides */
+    .hero-slides{position:absolute;inset:0;z-index:0}
+    .hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease}
+    .hero-slide.active{opacity:1}
+    /* Overlay semi-transparent sur chaque slide */
+    .hero-slide::after{content:'';position:absolute;inset:0;background:rgba(250,247,242,.75)}
+
+    /* Slide dots */
+    .slide-dots{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);display:flex;gap:.5rem;z-index:10}
+    .slide-dot{width:8px;height:8px;border-radius:50%;background:rgba(139,0,0,.25);border:none;cursor:pointer;transition:background .3s;padding:0}
+    .slide-dot.active{background:var(--red)}
+
+    /* Slide arrows */
+    .slide-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.7);border:1px solid var(--border);width:40px;height:40px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;color:var(--red);transition:background .22s}
+    .slide-arrow:hover{background:rgba(255,255,255,.95)}
+    .slide-arrow.prev{left:1.5rem} .slide-arrow.next{right:1.5rem}
+
+    /* Hero content sits above slides */
+    .hero-content{position:relative;z-index:5;display:flex;flex-direction:column;align-items:center}
+
+    /* ── SMALLER TITLE in top-left corner ── */
+    .hero-corner-title{
+      position:absolute; top:108px; left:2rem; z-index:6;
+      text-align:left; max-width:320px;
+    }
+    .hero-corner-title h1{
+      font-family:'Cinzel',serif;
+      font-size:clamp(1rem,2vw,1.5rem);
+      font-weight:700; line-height:1.25;
+      letter-spacing:.04em; text-transform:uppercase;
+      color:var(--text);
+    }
+    .hero-corner-title h1 span{color:var(--red)}
+
+    .hero-eyebrow{font-size:.68rem;font-weight:600;letter-spacing:.4em;text-transform:uppercase;color:var(--gold);margin-bottom:1rem;animation:fadeUp .7s ease both}
+    .hero-tagline{font-family:'Cinzel',serif;font-size:clamp(1.6rem,4vw,3.5rem);font-weight:800;line-height:1.1;letter-spacing:.04em;text-transform:uppercase;color:var(--text);animation:fadeUp .85s .1s ease both}
+    .hero-tagline span{color:var(--red);display:block}
+    .hero-sub{margin-top:1.2rem;font-size:.95rem;font-weight:300;letter-spacing:.05em;color:var(--text-mid);max-width:500px;line-height:1.8;animation:fadeUp .95s .2s ease both}
+    .hero-divider{width:50px;height:2px;background:var(--red);margin:1.8rem auto;animation:fadeUp 1s .3s ease both}
+    .hero-service-pill{display:inline-flex;gap:2rem;border:1px solid var(--border);background:var(--white);padding:.85rem 2.2rem;box-shadow:0 2px 16px rgba(0,0,0,.06);animation:fadeUp 1s .35s ease both}
+    .pill-item{text-align:center}
+    .pill-item .label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);display:block}
+    .pill-item .value{font-family:'Cinzel',serif;font-size:.95rem;font-weight:500;color:var(--text)}
+    .pill-sep{width:1px;background:var(--border)}
+    .hero-buttons{display:flex;gap:1rem;margin-top:2rem;animation:fadeUp 1s .45s ease both}
+    .btn-primary{background:var(--red);color:#fff;border:none;padding:.85rem 2.2rem;font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:background .22s,transform .2s;display:inline-block}
+    .btn-primary:hover{background:var(--red-bright);transform:translateY(-2px)}
+    .btn-outline{background:transparent;color:var(--text);border:1.5px solid var(--border);padding:.85rem 2.2rem;font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;transition:border-color .22s,color .22s,transform .2s;display:inline-block}
+    .btn-outline:hover{border-color:var(--red);color:var(--red);transform:translateY(-2px)}
+
+    /* ── SECTIONS ── */
+    section{padding:6rem 2rem}
+    .section-label{font-size:.65rem;font-weight:600;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.6rem}
+    .section-title{font-family:'Cinzel',serif;font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:700;color:var(--text);line-height:1.15}
+    .section-title span{color:var(--red)}
+    .section-line{width:45px;height:2px;background:var(--red);margin:1.2rem 0}
+
+    /* ── MISSION ── */
+    .mission{background:var(--white);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+    .mission-inner{max-width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:3rem}
+    .mission-text p{font-size:.93rem;line-height:1.9;color:var(--text-mid);margin-bottom:1.1rem}
+    .mission-quote{border-left:3px solid var(--red);padding:1.1rem 1.4rem;background:var(--red-light);font-style:italic;font-size:.88rem;color:var(--text-mid);line-height:1.8;margin-top:1.4rem}
+    .mission-quote cite{display:block;margin-top:.5rem;font-style:normal;font-size:.72rem;letter-spacing:.1em;color:var(--gold)}
+
+    /* Photo grid */
+    .mission-stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%}
+    .stat-card-img{width:100%;height:250px;overflow:hidden;border:1px solid var(--border)}
+    .stat-card-img img{width:100%;height:100%;object-fit:cover;transition:transform .3s}
+    .stat-card-img:hover img{transform:scale(1.05)}
+
+    /* ── SERVICES ── */
+    .services{background:var(--cream-dark);text-align:center}
+    .services-inner{max-width:900px;margin:0 auto}
+    .service-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.4rem;margin-top:3rem}
+    .service-card{border:1px solid var(--border);background:var(--white);padding:2.4rem 1.5rem;position:relative;overflow:hidden;transition:transform .3s,box-shadow .3s}
+    .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .35s}
+    .service-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08)} .service-card:hover::before{transform:scaleX(1)}
+    .service-card .icon{font-size:1.9rem;margin-bottom:1rem}
+    .service-card .day{font-family:'Cinzel',serif;font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
+    .service-card .time{font-family:'Cinzel',serif;font-size:1.5rem;font-weight:700;color:var(--text);margin:.35rem 0}
+    .service-card .name{font-size:.8rem;color:var(--text-mid)}
+
+    /* ── EVENTS ── */
+    .events{background:var(--white);border-top:1px solid var(--border)}
+    .events-inner{max-width:1100px;margin:0 auto}
+    .events-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem}
+    .events-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.4rem}
+    .event-card{background:var(--cream);border:1px solid var(--border);overflow:hidden;transition:transform .3s,box-shadow .3s;animation:fadeUp .5s ease both;display:flex;flex-direction:column}
+    .event-card:hover{transform:translateY(-5px);box-shadow:0 8px 30px rgba(0,0,0,.09)}
+    .event-card-top{background:linear-gradient(135deg,var(--red) 0%,#5a0000 100%);padding:1.4rem 1.4rem 1rem;display:flex;align-items:flex-start;gap:1rem}
+    .event-date-badge{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);padding:.5rem .7rem;text-align:center;flex-shrink:0;color:#fff}
+    .event-date-badge .month{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;opacity:.88;display:block}
+    .event-date-badge .day{font-family:'Cinzel',serif;font-size:1.6rem;font-weight:900;line-height:1;display:block}
+    .event-date-badge .year{font-size:.56rem;opacity:.7;display:block}
+    .event-card-tag{font-size:.6rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:rgba(255,255,255,.75);margin-top:.2rem}
+    .event-card-time{font-size:.75rem;color:rgba(255,255,255,.88);margin-top:.2rem}
+    .event-body{padding:1.3rem 1.4rem;flex:1;display:flex;flex-direction:column}
+    .event-title{font-family:'Cinzel',serif;font-size:.98rem;font-weight:600;margin-bottom:.5rem;color:var(--text)}
+    .event-desc{font-size:.8rem;color:var(--text-mid);line-height:1.7;margin-bottom:1rem;flex:1}
+    .event-footer-row{display:flex;align-items:center;justify-content:space-between;margin-top:auto}
+    .event-location{font-size:.68rem;color:var(--text-light)} .event-location::before{content:' '}
+    .event-link{font-size:.7rem;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--red);text-decoration:none;border-bottom:1px solid transparent;transition:border-color .22s}
+    .event-link:hover{border-color:var(--red)}
+
+    /* Skeleton */
+    .skeleton-card{background:var(--white);border:1px solid var(--border);overflow:hidden}
+    .skeleton-top{height:100px;background:linear-gradient(90deg,#ede8e0 25%,#e4ddd4 50%,#ede8e0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+    .skeleton-body{padding:1.3rem 1.4rem}
+    .skeleton-line{height:10px;background:linear-gradient(90deg,#ede8e0 25%,#e4ddd4 50%,#ede8e0 75%);background-size:200% 100%;animation:shimmer 1.4s infinite;border-radius:4px;margin-bottom:.7rem}
+    .skeleton-line.short{width:50%} .skeleton-line.medium{width:75%}
+    @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .no-events{grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light);font-size:.88rem}
+    .no-events .icon{font-size:2.5rem;display:block;margin-bottom:.8rem}
+
+    /* ── CTA ── */
+    .cta-band{background:var(--red);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden}
+    .cta-band::before{content:'';position:absolute;font-size:20rem;color:rgba(0,0,0,.08);right:-1rem;top:50%;transform:translateY(-50%);pointer-events:none;line-height:1}
+    .cta-band h2{font-family:'Cinzel',serif;font-size:clamp(1.5rem,3vw,2.4rem);font-weight:700;color:#fff;margin-bottom:.7rem}
+    .cta-band p{font-size:.95rem;font-weight:300;color:rgba(255,255,255,.82);margin-bottom:2rem}
+    .btn-white{background:#fff;color:var(--red);border:none;padding:.85rem 2.2rem;font-family:'Raleway',sans-serif;font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s}
+    .btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+
+    /* ── FOOTER ── */
+    footer{background:#2c2222;color:rgba(255,255,255,.6);padding:4rem 2rem 2rem}
+    .footer-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:3rem}
+    .footer-brand .logo{font-family:'Cinzel',serif;font-size:1.2rem;font-weight:700;color:#fff} .footer-brand .logo span{color:#e87070}
+    .footer-brand p{margin-top:.9rem;font-size:.8rem;font-weight:300;line-height:1.8;color:rgba(255,255,255,.45)}
+    .footer-col h4{font-family:'Cinzel',serif;font-size:.72rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:#c9a46a;margin-bottom:1.1rem}
+    .footer-col ul{list-style:none} .footer-col ul li{margin-bottom:.55rem}
+    .footer-col ul li a{font-size:.8rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .22s}
+    .footer-col ul li a:hover{color:#e87070}
+    .footer-bottom{max-width:1100px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;font-size:.73rem;color:rgba(255,255,255,.22)}
+
+    /* ── SOCIAL FIXED ICONS ── */
+    .social-fixed{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:.45rem;align-items:flex-end}
+    .sf-btn{display:flex;align-items:center;justify-content:center;width:40px;height:40px;border-radius:50%;text-decoration:none;font-size:1rem;box-shadow:0 3px 12px rgba(0,0,0,.18);transition:transform .22s,box-shadow .22s;color:#fff;font-weight:700}
+    .sf-btn:hover{transform:scale(1.12);box-shadow:0 5px 18px rgba(0,0,0,.25)}
+    .sf-facebook{background:#1877F2}
+    .sf-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+    .sf-youtube{background:#FF0000}
+    .sf-tiktok{background:#010101}
+    .sf-twitter{background:#1DA1F2}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+
+    /* ── HAMBURGER ── */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:6px;z-index:201}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--text);border-radius:1px;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+
+    /* ── MOBILE MENU ── */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+    .mobile-overlay.open{display:block}
+    .mobile-panel{position:fixed;top:0;right:0;width:min(300px,85vw);height:100%;background:#fff;z-index:160;padding:90px 2rem 2rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.15);overflow-y:auto}
+    .mobile-panel.open{transform:translateX(0)}
+    .mobile-panel a{font-size:.88rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text);text-decoration:none;padding:1rem 0;border-bottom:1px solid var(--border);transition:color .2s;display:block}
+    .mobile-panel a:hover{color:var(--red)}
+    .mobile-cta-link{margin-top:1.5rem;background:var(--red);color:#fff!important;text-align:center;padding:1rem!important;border:none!important}
+    .mobile-cta-link:hover{background:var(--red-bright)!important}
+    .mobile-address{font-size:.75rem;color:var(--text-light);margin-top:auto;padding-top:1.5rem;border-top:1px solid var(--border);line-height:1.8}
+
+    @media(max-width:900px){
+      .nav-top{display:none}
+      nav{padding:0 1.2rem} .nav-links{display:none}
+      .hamburger{display:flex}
+      .mission-stat-grid{grid-template-columns:repeat(2,1fr)}
+      .events-grid{grid-template-columns:1fr}
+      .footer-inner{grid-template-columns:1fr 1fr}
+      .footer-bottom{flex-direction:column;gap:.5rem}
+      .hero-buttons{flex-direction:column;align-items:center}
+      .hero-corner-title{font-size:.85rem;max-width:180px;top:78px}
+      .slide-arrow{display:none}
+      .hero{padding-top:78px}
+    }
+    @media(max-width:600px){
+      .footer-inner{grid-template-columns:1fr}
+      .hero-service-pill{flex-direction:column;gap:.8rem;padding:.9rem 1.5rem;text-align:center}
+      .pill-sep{width:40px;height:1px;align-self:center}
+      .hero-corner-title{display:none}
+      .hero-tagline{font-size:clamp(1.4rem,7vw,2.2rem)}
+      .events-header{flex-direction:column;align-items:flex-start}
+      .mission-stat-grid{grid-template-columns:1fr 1fr}
+      .stat-card-img{height:180px}
+      section{padding:4rem 1.2rem}
+      .cta-band{padding:3rem 1.2rem}
+      .service-cards{grid-template-columns:1fr}
+    }
+  
+    /* ── FONT: Inter (modern, clean) ── */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
+
+    /* ── DOUBLE NAV ── */
+    .nav-wrapper{position:fixed;top:0;left:0;right:0;z-index:100}
+    .nav-top{background:#f0ebe2;border-bottom:1px solid #e2d9ce;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:36px}
+    .nav-top-address{font-family:'Inter',sans-serif;font-size:.68rem;letter-spacing:.04em;color:#888}
+    .nav-top-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-top-links a{font-family:'Inter',sans-serif;font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .2s}
+    .nav-top-links a:hover{color:#8B0000}
+    nav{background:rgba(255,255,255,.98);border-bottom:1px solid #e2d9ce;box-shadow:0 2px 14px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px}
+    .nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+    .nav-logo img{height:42px;width:auto}
+    .nav-logo-text{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700;letter-spacing:.02em;color:#2c2c2c;line-height:1.2}
+    .nav-logo-text span{color:#8B0000}
+    .nav-links{display:flex;align-items:center;gap:2.2rem;list-style:none}
+    .nav-links a{font-family:'Inter',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .22s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#8B0000;transition:width .3s}
+    .nav-links a:hover,.nav-links a.active{color:#8B0000}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{background:#8B0000!important;color:#fff!important;padding:.48rem 1.3rem;font-family:'Inter',sans-serif;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .22s}
+    .nav-cta:hover{background:#B22222!important} .nav-cta::after{display:none!important}
+
+    /* ── SOCIAL FIXED ICONS ── */
+    .social-fixed{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:.4rem}
+    .sf-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.2);transition:transform .22s,opacity .22s;opacity:.88}
+    .sf-btn:hover{transform:scale(1.12);opacity:1}
+    .sf-btn svg{width:18px;height:18px;fill:#fff}
+    .sf-facebook{background:#1877F2}
+    .sf-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+    .sf-youtube{background:#FF0000}
+    .sf-tiktok{background:#010101}
+    .sf-twitter{background:#000}
+    .sf-email{background:#8B0000}
+
+    @media(max-width:900px){.nav-top{display:none}nav{padding:0 1.2rem}.nav-links{display:none}.hamburger{display:flex}.social-fixed{bottom:1rem;right:.8rem}}
+
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+
+<!-- DOUBLE NAV -->
+<div class="nav-wrapper">
+  <div class="nav-top">
+    <span class="nav-top-address">2450 N 72nd Street, Omaha, NE 68134</span>
+    <ul class="nav-top-links">
+      <li><a href="foundationClass/foundationClass.html">Foundation Class</a></li>
+      <li><a href="aboutUs/about.html">About Us</a></li>
+
+      <li><a href="tel:+14025550192">(402) 555-0192</a></li>
+    </ul>
+  </div>
+  <nav>
+    <a href="index.html" class="nav-logo">
+      <img src="Image/LogoOmaha.jpg" alt="Winner Chapel at Omaha"/>
+      <span class="nav-logo-text">Winner Chapel <span>at Omaha</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="churchEvents/events.html">Events</a></li>
+      <li><a href="houseFellowship/houseFellowship.html">House Fellowship</a></li>
+      <li><a href="donation/give.html" class="nav-cta">Give</a></li>
+    </ul>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</div>
+
+
+  <!-- Barre principale -->
+
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-panel" id="mobilePanel">
+  <a href="index.html">Home</a>
+  <a href="churchEvents/events.html">Events</a>
+  <a href="houseFellowship/houseFellowship.html">House Fellowship</a>
+  <a href="foundationClass/foundationClass.html">Foundation Class</a>
+  <a href="aboutUs/about.html">About Us</a>
+  <a href="donation/give.html" class="mobile-cta-link">Give Online</a>
+  <div class="mobile-address">2450 N 72nd Street, Omaha, NE 68134<br/>(402) 555-0192</div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+
+  <!-- Petit titre coin supérieur gauche -->
+  <div class="hero-corner-title">
+    <h1>Living Faith Church<br/><span>Worldwide at Omaha</span></h1>
+  </div>
+
+  <!-- Slides défilantes -->
+  <div class="hero-slides" id="heroSlides">
+    <div class="hero-slide active" style="background-image:url('Image/CoverPhoto.png')"></div>
+    <div class="hero-slide" style="background-image:url('Image/OurMission1.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Image/OurMission2.jpg')"></div>
+    <div class="hero-slide" style="background-image:url('Image/OurMission3.jpg')"></div>
+  </div>
+
+  <!-- Flèches -->
+  <button class="slide-arrow prev" onclick="changeSlide(-1)">&#8249;</button>
+  <button class="slide-arrow next" onclick="changeSlide(1)">&#8250;</button>
+
+  <!-- Points -->
+  <div class="slide-dots" id="slideDots"></div>
+
+  <!-- Contenu central -->
+  <div class="hero-content">
+    <span class="hero-eyebrow">Welcome to</span>
+    <div class="hero-tagline">
+      Liberating<br/><span>the Nations</span>
+    </div>
+    <p class="hero-sub">Liberating mankind in all facets of human existence — restoring broken destinies, bringing healing to the sick and brokenhearted.</p>
+    <div class="hero-divider"></div>
+    <div class="hero-service-pill">
+      <div class="pill-item"><span class="label">Prayer</span><span class="value">Sun @ 8AM</span></div>
+      <div class="pill-sep"></div>
+      <div class="pill-item"><span class="label">Worship</span><span class="value">Sun @ 9AM</span></div>
+    </div>
+    <div class="hero-buttons">
+      <a href="churchEvents/events.html" class="btn-primary">View Events</a>
+      <a href="donation/give.html" class="btn-outline">Give Online</a>
+    </div>
+  </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission">
+  <div class="mission-inner">
+    <div class="mission-text">
+      <span class="section-label">Our Purpose</span>
+      <h2 class="section-title">Our <span>Mission</span></h2>
+      <div class="section-line"></div>
+      <p>Our mandate for ministry was received from the Lord Himself in an 18-hour vision. During this vision, a commission was received to liberate mankind in all facets of human existence, to restore broken destinies, and to bring healing to the sick and brokenhearted.</p>
+      <p>Today, testimonies of liberation through our messages, books, tapes, magazines and other periodicals are most humbling. The word of faith is working like fire for the liberation of mankind across the nations.</p>
+      <blockquote class="mission-quote">
+        "The hour has come to liberate the world from all oppressions of the devil, through the preaching of the word of faith, and I am sending you to undertake this risk."
+        <cite>Luke 4:18–19 &nbsp;|&nbsp; Matthew 10:1–8</cite>
+      </blockquote>
+    </div>
+    <div class="mission-stat-grid">
+      <div class="stat-card-img"><img src="Image/OurMission1.jpg" alt="Mission 1"/></div>
+      <div class="stat-card-img"><img src="Image/OurMission2.jpg" alt="Mission 2"/></div>
+      <div class="stat-card-img"><img src="Image/OurMission3.jpg" alt="Mission 3"/></div>
+      <div class="stat-card-img"><img src="Image/OurMission4.jpg" alt="Mission 4"/></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services">
+  <div class="services-inner">
+    <span class="section-label">Join Us</span>
+    <h2 class="section-title">Service <span>Times</span></h2>
+    <div class="section-line" style="margin:1.2rem auto;"></div>
+    <div class="service-cards">
+      <div class="service-card"><div class="icon"></div><div class="day">Sunday</div><div class="time">8:00 AM</div><div class="name">Upper Room Prayer</div></div>
+      <div class="service-card"><div class="icon"></div><div class="day">Sunday</div><div class="time">9:00 AM</div><div class="name">Worship Service</div></div>
+      <div class="service-card"><div class="icon"></div><div class="day">Weekdays</div><div class="time">6:00 PM</div><div class="name">MidWeek Communion Service</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS — live from Supabase -->
+<section class="events">
+  <div class="events-inner">
+    <div class="events-header">
+      <div>
+        <span class="section-label">What's Coming</span>
+        <h2 class="section-title">Upcoming <span>Events</span></h2>
+      </div>
+      <a href="churchEvents/events.html" class="btn-outline">View All Events</a>
+    </div>
+    <div class="events-grid" id="eventsGrid">
+      <div class="skeleton-card"><div class="skeleton-top"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-top"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div></div></div>
+      <div class="skeleton-card"><div class="skeleton-top"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line medium"></div><div class="skeleton-line"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-band">
+  <h2>Plan Your First Visit</h2>
+  <p>We would love to have you worship with us. Come as you are.</p>
+  <a href="socialMediaConnect/follow.html" class="btn-white">Stay in Touch</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <div class="logo">Living Faith Church <span>Worldwide at Omaha</span></div>
+      <p>Liberating mankind in all facets of human existence through the preaching of the word of faith.</p>
+    </div>
+    <div class="footer-col"><h4>Navigate</h4><ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="churchEvents/events.html">Events</a></li>
+      <li><a href="foundationClass/foundationClass.html">Foundation Class</a></li>
+      <li><a href="socialMediaConnect/follow.html">Stay in Touch</a></li>
+      <li><a href="aboutUs/about.html">About Us</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Service Times</h4><ul>
+      <li><a href="#">Sunday 8:00 AM</a></li>
+      <li><a href="#">Sunday 9:00 AM</a></li>
+      <li><a href="#">MidWeek Communion Service</a></li>
+    </ul></div>
+    <div class="footer-col"><h4>Give</h4><ul>
+      <li><a href="donation/give.html">Online Giving</a></li>
+      <li><a href="donation/give.html">Tithes & Offerings</a></li>
+    </ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Living Faith Church Worldwide at Omaha. All rights reserved. </span>
+    <span>Built with faith </span>
+  </div>
+</footer>
+
+<script type="module">
+  // ── SUPABASE KEYS (tes vraies clés) ──
+  const SUPABASE_URL      = 'https://ydgcaquqnetawssqlnkj.supabase.co';
+  const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZ2NhcXVxbmV0YXdzc3FsbmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMzEwMjgsImV4cCI6MjA5MTcwNzAyOH0.Ep15_AoOK-Rcgk4LyoZBJq5cQVr7Hx4k-RcS_EKWDAM';
+
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  const MONTHS = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+  async function loadHomeEvents() {
+    const today = new Date().toISOString().split('T')[0];
+    const { data, error } = await supabase
+      .from('events').select('*')
+      .gte('date', today)
+      .order('date', { ascending: true })
+      .limit(3);
+
+    const grid = document.getElementById('eventsGrid');
+    if (error || !data || data.length === 0) {
+      grid.innerHTML = `<div class="no-events"><span class="icon"></span>No upcoming events at this time. Check back soon!</div>`;
+      return;
+    }
+    grid.innerHTML = data.map((ev, i) => {
+      const d = new Date(ev.date + 'T00:00:00');
+      const desc = ev.description
+        ? (ev.description.length > 90 ? ev.description.slice(0,90)+'…' : ev.description)
+        : 'Join us for this special gathering.';
+      return `
+        <div class="event-card" style="animation-delay:${i*.1}s">
+          <div class="event-card-top">
+            <div class="event-date-badge">
+              <span class="month">${MONTHS[d.getMonth()]}</span>
+              <span class="day">${String(d.getDate()).padStart(2,'0')}</span>
+              <span class="year">${d.getFullYear()}</span>
+            </div>
+            <div>
+              <div class="event-card-tag">${ev.category}</div>
+              <div class="event-card-time">⏰ ${ev.time}</div>
+            </div>
+          </div>
+          <div class="event-body">
+            <div class="event-title">${ev.title}</div>
+            <p class="event-desc">${desc}</p>
+            <div class="event-footer-row">
+              <span class="event-location">${ev.location}</span>
+              <a href="churchEvents/events.html" class="event-link">Learn More →</a>
+            </div>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  loadHomeEvents();
+</script>
+
+<script>
+  // ── HERO SLIDER ──
+  const slides = document.querySelectorAll('.hero-slide');
+  const dotsContainer = document.getElementById('slideDots');
+  let current = 0, timer;
+
+  // Build dots
+  slides.forEach((_, i) => {
+    const dot = document.createElement('button');
+    dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+    dot.onclick = () => goTo(i);
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsContainer.children[current].classList.remove('active');
+    current = (n + slides.length) % slides.length;
+    slides[current].classList.add('active');
+    dotsContainer.children[current].classList.add('active');
+  }
+
+  function changeSlide(dir) { clearInterval(timer); goTo(current + dir); startAuto(); }
+
+  function startAuto() { timer = setInterval(() => goTo(current + 1), 5000); }
+  startAuto();
+
+
+</script>
+
+<!-- SOCIAL FIXED ICONS -->
+<div class="social-fixed">
+  <!-- YouTube -->
+  <a href="https://youtube.com/@WinnerChapelOmaha" target="_blank" class="sf-btn sf-youtube" title="YouTube">
+    <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+  </a>
+  <!-- Instagram -->
+  <a href="https://instagram.com/winnerschapelomaha" target="_blank" class="sf-btn sf-instagram" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.5.1-4.8C2.4 3.9 3.9 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+  </a>
+  <!-- TikTok -->
+  <a href="https://tiktok.com/@winnerschapelomaha" target="_blank" class="sf-btn sf-tiktok" title="TikTok">
+    <svg viewBox="0 0 24 24"><path d="M19.6 3.3A4.5 4.5 0 0 1 15.1 0h-3.3v15.6a2.6 2.6 0 0 1-2.6 2.2 2.6 2.6 0 0 1-2.6-2.6 2.6 2.6 0 0 1 2.6-2.6c.3 0 .5 0 .8.1V9.3a6 6 0 0 0-.8-.1 5.9 5.9 0 0 0-5.9 5.9 5.9 5.9 0 0 0 5.9 5.9 5.9 5.9 0 0 0 5.9-5.9V8.1a7.8 7.8 0 0 0 4.5 1.4V6.2a4.5 4.5 0 0 1-3-2.9z"/></svg>
+  </a>
+  <!-- X / Twitter -->
+  <a href="https://twitter.com/WinnerChapelNE" target="_blank" class="sf-btn sf-twitter" title="Twitter / X">
+    <svg viewBox="0 0 24 24"><path d="M18.3 0h3.5l-7.6 8.7L23 24h-7L10.6 15.6 4.4 24H.9l8.1-9.3L0 0h7.2l5.5 7.3L18.3 0zm-1.2 21.6h1.9L6.9 2h-2L17.1 21.6z"/></svg>
+  </a>
+  <!-- Facebook -->
+  <a href="https://facebook.com/WinnerChapelOmaha" target="_blank" class="sf-btn sf-facebook" title="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1C0 18.1 4.4 23 10.1 24v-8.4H7.1v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3H15.8c-1.5 0-2 .9-2 1.9v2.3h3.4l-.5 3.5h-2.9V24C19.6 23 24 18.1 24 12.1z"/></svg>
+  </a>
+  <!-- Email -->
+  <a href="mailto:info@winnerschapel.org" class="sf-btn sf-email" title="Email Us">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+
+<script>
+  // ── MOBILE MENU ──
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const mobilePanel = document.getElementById('mobilePanel');
+
+  function openMenu(){
+    hamburgerBtn.classList.add('open');
+    mobileOverlay.classList.add('open');
+    mobilePanel.classList.add('open');
+    document.body.style.overflow='hidden';
+  }
+  function closeMenu(){
+    hamburgerBtn.classList.remove('open');
+    mobileOverlay.classList.remove('open');
+    mobilePanel.classList.remove('open');
+    document.body.style.overflow='';
+  }
+
+  hamburgerBtn.addEventListener('click', () =>
+    hamburgerBtn.classList.contains('open') ? closeMenu() : openMenu()
+  );
+  mobileOverlay.addEventListener('click', closeMenu);
+</script>
+
+</body>
+</html>

@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Foundation Class — Winner Chapel</title>
+  <style>
+    /* ── FONTS ── */
+h1,h2,h3,h4,.nav-logo-text,.section-title,.footer-logo,.event-title,.group-name,.payment-name,.module-title{font-family:'Playfair Display',serif}
+
+    /* ── DOUBLE NAV ── */
+    .nav-wrapper{position:fixed;top:0;left:0;right:0;z-index:100}
+    .nav-top{background:#f0ebe2;border-bottom:1px solid #e2d9ce;display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:36px}
+    .nav-top-address{font-size:.68rem;letter-spacing:.04em;color:#888}
+    .nav-top-links{display:flex;gap:1.8rem;list-style:none}
+    .nav-top-links a{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .2s}
+    .nav-top-links a:hover{color:#8B0000}
+    nav{background:rgba(255,255,255,.98);border-bottom:1px solid #e2d9ce;box-shadow:0 2px 14px rgba(0,0,0,.06);display:flex;align-items:center;justify-content:space-between;padding:0 3rem;height:68px}
+    .nav-logo{display:flex;align-items:center;gap:.75rem;text-decoration:none}
+    .nav-logo img{height:42px;width:auto}
+    .nav-logo-text{font-size:1rem;font-weight:700;letter-spacing:.02em;color:#2c2c2c;line-height:1.2}
+    .nav-logo-text span{color:#8B0000}
+    .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
+    .nav-links a{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .22s;position:relative}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:#8B0000;transition:width .3s}
+    .nav-links a:hover,.nav-links a.active{color:#8B0000}
+    .nav-links a:hover::after,.nav-links a.active::after{width:100%}
+    .nav-cta{background:#8B0000!important;color:#fff!important;padding:.48rem 1.3rem;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .22s}
+    .nav-cta:hover{background:#B22222!important} .nav-cta::after{display:none!important}
+
+    /* ── SOCIAL FIXED ── */
+    .social-fixed{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:.4rem}
+    .sf-btn{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;text-decoration:none;box-shadow:0 3px 10px rgba(0,0,0,.2);transition:transform .22s,opacity .22s;opacity:.88}
+    .sf-btn:hover{transform:scale(1.12);opacity:1}
+    .sf-btn svg{width:18px;height:18px;fill:#fff}
+    .sf-facebook{background:#1877F2}
+    .sf-instagram{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fd5949 45%,#d6249f 60%,#285AEB 90%)}
+    .sf-youtube{background:#FF0000}
+    .sf-tiktok{background:#010101}
+    .sf-twitter{background:#000}
+    .sf-email{background:#8B0000}
+
+    /* ── HAMBURGER ── */
+    .hamburger{display:none;flex-direction:column;justify-content:center;gap:5px;cursor:pointer;background:none;border:none;padding:6px;z-index:201}
+    .hamburger span{display:block;width:24px;height:2px;background:#2c2c2c;border-radius:1px;transition:all .3s}
+    .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+    .hamburger.open span:nth-child(2){opacity:0;transform:scaleX(0)}
+    .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+    /* ── MOBILE MENU ── */
+    .mobile-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:150}
+    .mobile-overlay.open{display:block}
+    .mobile-panel{position:fixed;top:0;right:0;width:min(300px,85vw);height:100%;background:#fff;z-index:160;padding:90px 2rem 2rem;display:flex;flex-direction:column;transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 24px rgba(0,0,0,.15);overflow-y:auto}
+    .mobile-panel.open{transform:translateX(0)}
+    .mobile-panel a{font-size:.88rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#2c2c2c;text-decoration:none;padding:1rem 0;border-bottom:1px solid #e2d9ce;transition:color .2s;display:block}
+    .mobile-panel a:hover{color:#8B0000}
+    .mobile-cta-link{margin-top:1.5rem;background:#8B0000;color:#fff!important;text-align:center;padding:1rem!important;border:none!important}
+    .mobile-cta-link:hover{background:#B22222!important}
+    .mobile-address{font-size:.75rem;color:#888;margin-top:auto;padding-top:1.5rem;border-top:1px solid #e2d9ce;line-height:1.8}
+    @media(max-width:900px){
+      .nav-top{display:none}
+      nav{padding:0 1.2rem}
+      .nav-links{display:none}
+      .hamburger{display:flex}
+      .social-fixed{bottom:1rem;right:.8rem}
+    }
+
+    :root{--red:#8B0000;--red-bright:#B22222;--red-light:#f9f0f0;--cream:#faf7f2;--cream-dark:#f0ebe2;--white:#ffffff;--text:#2c2c2c;--text-mid:#555555;--text-light:#888888;--border:#e2d9ce;--gold:#9a7635}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{font-family:'Inter',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden;padding-top:104px}
+
+    
+     
+    
+    
+    
+      
+     
+
+    .page-hero{padding-top:0;height:320px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden;background:linear-gradient(170deg,var(--cream) 0%,var(--cream-dark) 100%);border-bottom:1px solid var(--border)}
+    .page-hero::before{content:'FOUNDATION';position:absolute;font-family:'Playfair Display',serif;font-size:9rem;font-weight:900;color:rgba(139,0,0,.04);letter-spacing:.05em;bottom:-1rem;pointer-events:none;white-space:nowrap}
+    .page-hero .eyebrow{font-size:.65rem;font-weight:600;letter-spacing:.38em;text-transform:uppercase;color:var(--gold);margin-bottom:.7rem}
+    .page-hero h1{font-family:'Playfair Display',serif;font-size:clamp(2rem,5vw,3.8rem);font-weight:900;color:var(--text)} .page-hero h1 span{color:var(--red)}
+    .page-hero p{margin-top:.8rem;font-size:.88rem;color:var(--text-mid);max-width:500px;line-height:1.7}
+    .breadcrumb{margin-top:.8rem;font-size:.73rem;color:var(--text-light)} .breadcrumb a{color:var(--red);text-decoration:none}
+
+    .page-body{max-width:1050px;margin:0 auto;padding:5rem 2rem 6rem}
+
+    .section-label{font-size:.63rem;font-weight:600;letter-spacing:.36em;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:.5rem}
+    .section-title{font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;color:var(--text)}
+    .section-title span{color:var(--red)}
+    .section-line{width:45px;height:2px;background:var(--red);margin:1.1rem 0 2.5rem}
+
+    /* Intro */
+    .intro-band{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--red);padding:2rem 2.5rem;margin-bottom:4rem;display:flex;align-items:flex-start;gap:1.5rem}
+    .intro-band .bi{font-size:2.2rem;flex-shrink:0}
+    .intro-band h3{font-family:'Playfair Display',serif;font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.5rem}
+    .intro-band p{font-size:.85rem;color:var(--text-mid);line-height:1.8}
+
+    /* What you'll learn */
+    .modules-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.3rem;margin-bottom:4rem}
+    .module-card{background:var(--white);border:1px solid var(--border);padding:1.6rem;position:relative;overflow:hidden;transition:transform .28s,box-shadow .28s;animation:fadeUp .4s ease both}
+    .module-card:hover{transform:translateY(-3px);box-shadow:0 6px 24px rgba(0,0,0,.08)}
+    .module-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:rgba(139,0,0,.08);position:absolute;top:.5rem;right:.9rem;line-height:1}
+    .module-icon{font-size:1.5rem;margin-bottom:.8rem}
+    .module-title{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:600;color:var(--text);margin-bottom:.4rem}
+    .module-desc{font-size:.78rem;color:var(--text-mid);line-height:1.7}
+
+    /* Schedule */
+    .schedule-layout{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:4rem;align-items:start}
+    .schedule-card{background:var(--white);border:1px solid var(--border);overflow:hidden}
+    .schedule-card-head{background:var(--red);color:#fff;padding:1.2rem 1.5rem}
+    .schedule-card-head h4{font-family:'Playfair Display',serif;font-size:1rem;font-weight:700}
+    .schedule-card-head p{font-size:.75rem;color:rgba(255,255,255,.78);margin-top:.2rem}
+    .schedule-row{display:flex;justify-content:space-between;align-items:center;padding:.85rem 1.5rem;border-bottom:1px solid var(--border);font-size:.82rem}
+    .schedule-row:last-child{border-bottom:none}
+    .schedule-row .sw{color:var(--gold);font-weight:600;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase}
+    .schedule-row .st{color:var(--text-mid)}
+    .schedule-row .ss{color:var(--text);font-weight:600}
+
+    /* Registration form */
+    .reg-section{background:var(--white);border:1px solid var(--border);padding:3rem;position:relative;overflow:hidden;max-width:700px;margin:0 auto}
+    .reg-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red)}
+    .reg-section h3{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;margin-bottom:.4rem} .reg-section h3 span{color:var(--red)}
+    .reg-section .subtitle{font-size:.82rem;color:var(--text-mid);margin-bottom:2rem;line-height:1.7}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+    .form-group{margin-bottom:1rem}
+    .form-group label{display:block;font-size:.63rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:.38rem}
+    .form-group input,.form-group select,.form-group textarea{width:100%;background:var(--cream);border:1.5px solid var(--border);color:var(--text);padding:.62rem .88rem;font-family:'Inter',sans-serif;font-size:.82rem;outline:none;transition:border-color .22s;appearance:none}
+    .form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--red);background:var(--white)}
+    .form-group select option{background:#fff} .form-group textarea{resize:vertical;min-height:80px}
+    .btn-submit{width:100%;background:var(--red);color:#fff;border:none;padding:.85rem;font-family:'Inter',sans-serif;font-size:.76rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:background .22s;margin-top:.5rem}
+    .btn-submit:hover{background:var(--red-bright)}
+    .form-success{display:none;text-align:center;padding:2rem}
+    .form-success .check{font-size:2.5rem;margin-bottom:.8rem}
+    .form-success h4{font-family:'Playfair Display',serif;font-size:1rem;margin-bottom:.5rem} .form-success h4 span{color:var(--red)}
+    .form-success p{font-size:.82rem;color:var(--text-mid);line-height:1.7}
+
+    footer{background:#2c2222;color:rgba(255,255,255,.6);padding:3rem 2rem 1.5rem;text-align:center}
+    .footer-logo{font-family:'Playfair Display',serif;font-size:1.1rem;font-weight:700;color:#fff} .footer-logo span{color:#e87070}
+    footer p{font-size:.73rem;color:rgba(255,255,255,.3);margin-top:.8rem}
+
+    @keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:768px){.schedule-layout{grid-template-columns:1fr}.form-row{grid-template-columns:1fr}}
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
+</head>
+<body>
+<!-- DOUBLE NAV -->
+<div class="nav-wrapper">
+  <div class="nav-top">
+    <span class="nav-top-address">2450 N 72nd Street, Omaha, NE 68134</span>
+    <ul class="nav-top-links">
+      <li><a href="../foundationClass/foundationClass.html">Foundation Class</a></li>
+      <li><a href="../aboutUs/about.html">About Us</a></li>
+      <li><a href="tel:+14025550192">(402) 555-0192</a></li>
+    </ul>
+  </div>
+  <nav>
+    <a href="../index.html" class="nav-logo">
+      <img src="../Image/LogoOmaha.jpg" alt="Winner Chapel at Omaha"/>
+      <span class="nav-logo-text">Winner Chapel <span>at Omaha</span></span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="../churchEvents/events.html">Events</a></li>
+      <li><a href="../houseFellowship/houseFellowship.html">House Fellowship</a></li>
+      <li><a href="../donation/give.html" class="nav-cta">Give</a></li>
+    </ul>
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+</div>
+
+<!-- MOBILE MENU -->
+<div class="mobile-overlay" id="mobileOverlay"></div>
+<div class="mobile-panel" id="mobilePanel">
+  <a href="../index.html">Home</a>
+  <a href="../churchEvents/events.html">Events</a>
+  <a href="../houseFellowship/houseFellowship.html">House Fellowship</a>
+  <a href="../foundationClass/foundationClass.html">Foundation Class</a>
+  <a href="../aboutUs/about.html">About Us</a>
+  <a href="../donation/give.html" class="mobile-cta-link">Give Online</a>
+  <div class="mobile-address">2450 N 72nd Street, Omaha, NE 68134<br/>(402) 555-0192</div>
+</div>
+<div class="page-hero">
+  <span class="eyebrow">New to the Faith?</span>
+  <h1>Foundation <span>Class</span></h1>
+  <p>A 6-week discipleship program designed to ground every new believer in the foundational truths of the Christian faith.</p>
+  <div class="breadcrumb"><a href="../index.html">Home</a> &nbsp;/&nbsp; Foundation Class</div>
+</div>
+
+<div class="page-body">
+
+  <!-- Intro banner -->
+  <div class="intro-band">
+    <span class="bi"></span>
+    <div>
+      <h3>Build Your Life on the Word</h3>
+      <p>Whether you just gave your life to Christ or you've been in church for years and want a solid foundation, this class is for you. Over 6 weeks, you will discover who you are in Christ, how to pray, how to study the Bible, and how to live victoriously as a believer. All materials are provided — completely free of charge.</p>
+    </div>
+  </div>
+
+  <!-- What you'll learn -->
+  <span class="section-label">Curriculum</span>
+  <h2 class="section-title">What You'll <span>Learn</span></h2>
+  <div class="section-line"></div>
+
+  <div class="modules-grid">
+    <div class="module-card" style="animation-delay:0s"><div class="module-num">01</div><div class="module-icon"></div><div class="module-title">Salvation & New Birth</div><div class="module-desc">Understanding what it means to be born again and the assurance of your salvation in Christ.</div></div>
+    <div class="module-card" style="animation-delay:.08s"><div class="module-num">02</div><div class="module-icon"></div><div class="module-title">The Word of God</div><div class="module-desc">How to read, study, and apply the Bible to every area of your life for lasting transformation.</div></div>
+    <div class="module-card" style="animation-delay:.16s"><div class="module-num">03</div><div class="module-icon"></div><div class="module-title">Prayer & Communication</div><div class="module-desc">Building a powerful prayer life — learning the different types of prayer and how to hear God's voice.</div></div>
+    <div class="module-card" style="animation-delay:.24s"><div class="module-num">04</div><div class="module-icon"></div><div class="module-title">The Holy Spirit</div><div class="module-desc">Who is the Holy Spirit, His role in your life, and how to walk in His power every day.</div></div>
+    <div class="module-card" style="animation-delay:.32s"><div class="module-num">05</div><div class="module-icon"></div><div class="module-title">The Local Church</div><div class="module-desc">Why the church matters, how to serve, give, and grow within the body of Christ.</div></div>
+    <div class="module-card" style="animation-delay:.4s"><div class="module-num">06</div><div class="module-icon"></div><div class="module-title">Living the Faith</div><div class="module-desc">How to apply your faith in daily life — at work, in relationships, in finances, and in your calling.</div></div>
+  </div>
+
+  <!-- Schedule -->
+  <span class="section-label">When & Where</span>
+  <h2 class="section-title">Class <span>Schedule</span></h2>
+  <div class="section-line"></div>
+
+  <div class="schedule-layout">
+    <div class="schedule-card">
+      <div class="schedule-card-head"><h4>Current Session</h4><p>Saturdays — 6 weeks</p></div>
+      <div class="schedule-row"><span class="sw">Week 1</span><span class="ss">Salvation & New Birth</span><span class="st">Jan 11</span></div>
+      <div class="schedule-row"><span class="sw">Week 2</span><span class="ss">The Word of God</span><span class="st">Jan 18</span></div>
+      <div class="schedule-row"><span class="sw">Week 3</span><span class="ss">Prayer</span><span class="st">Jan 25</span></div>
+      <div class="schedule-row"><span class="sw">Week 4</span><span class="ss">The Holy Spirit</span><span class="st">Feb 1</span></div>
+      <div class="schedule-row"><span class="sw">Week 5</span><span class="ss">The Local Church</span><span class="st">Feb 8</span></div>
+      <div class="schedule-row"><span class="sw">Week 6</span><span class="ss">Living the Faith</span><span class="st">Feb 15</span></div>
+    </div>
+
+    <div class="schedule-card">
+      <div class="schedule-card-head"><h4>Class Details</h4><p>Everything you need to know</p></div>
+      <div class="schedule-row"><span class="sw">Day</span><span class="ss">Every Saturday</span></div>
+      <div class="schedule-row"><span class="sw">Time</span><span class="ss">10:00 AM – 12:00 PM</span></div>
+      <div class="schedule-row"><span class="sw">Location</span><span class="ss">Winner Chapel — Room 104</span></div>
+      <div class="schedule-row"><span class="sw">Address</span><span class="st">2450 N 72nd St, Omaha NE</span></div>
+      <div class="schedule-row"><span class="sw">Cost</span><span class="ss" style="color:var(--red)">Completely FREE</span></div>
+      <div class="schedule-row"><span class="sw">Materials</span><span class="ss">Provided on Day 1</span></div>
+    </div>
+  </div>
+
+  <!-- Registration -->
+  <span class="section-label">Sign Up</span>
+  <h2 class="section-title">Register for the <span>Class</span></h2>
+  <div class="section-line"></div>
+
+  <div class="reg-section">
+    <h3>Enroll <span>Today</span></h3>
+    <p class="subtitle">Spots are limited. Fill out the form below to reserve your place in the next Foundation Class. We will confirm your registration by email.</p>
+    <div id="fcForm">
+      <div class="form-row">
+        <div class="form-group"><label>First Name</label><input type="text" id="fcFirst" placeholder="John"/></div>
+        <div class="form-group"><label>Last Name</label><input type="text" id="fcLast" placeholder="Doe"/></div>
+      </div>
+      <div class="form-group"><label>Email</label><input type="email" id="fcEmail" placeholder="your@email.com"/></div>
+      <div class="form-group"><label>Phone</label><input type="tel" id="fcPhone" placeholder="+1 (000) 000-0000"/></div>
+      <div class="form-group">
+        <label>How long have you been a believer?</label>
+        <select id="fcExp">
+          <option value="">— Select —</option>
+          <option>Just gave my life to Christ</option>
+          <option>Less than 1 year</option>
+          <option>1–3 years</option>
+          <option>3–5 years</option>
+          <option>More than 5 years</option>
+        </select>
+      </div>
+      <div class="form-group"><label>How did you hear about us?</label>
+        <select id="fcRef">
+          <option value="">— Select —</option>
+          <option>Sunday Service</option>
+          <option>A friend or family member</option>
+          <option>Social Media</option>
+          <option>This website</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Questions or Comments</label><textarea id="fcNote" placeholder="Anything you'd like us to know before the class..."></textarea></div>
+      <button class="btn-submit" onclick="submitFC()">Reserve My Spot</button>
+    </div>
+    <div class="form-success" id="fcSuccess">
+      <div class="check"></div>
+      <h4>You're <span>Enrolled!</span></h4>
+      <p>Your spot is reserved. We will send you a confirmation email with all the details.<br/><br/>We are so excited to walk this journey with you. See you on Saturday! God bless you!</p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <div class="footer-logo">Winner <span>Chapel</span></div>
+  <p>© 2025 Winner Chapel. All rights reserved. ✝</p>
+</footer>
+
+<script>
+  function submitFC() {
+    const first = document.getElementById('fcFirst').value.trim();
+    const email = document.getElementById('fcEmail').value.trim();
+    if (!first) return alert('Please enter your first name.');
+    if (!email || !email.includes('@')) return alert('Please enter a valid email.');
+    document.getElementById('fcForm').style.display = 'none';
+    document.getElementById('fcSuccess').style.display = 'block';
+  }
+</script>
+<!-- SOCIAL FIXED ICONS -->
+<div class="social-fixed">
+  <a href="https://youtube.com/@WinnerChapelOmaha" target="_blank" class="sf-btn sf-youtube" title="YouTube">
+    <svg viewBox="0 0 24 24"><path d="M23.5 6.2a3 3 0 0 0-2.1-2.1C19.5 3.5 12 3.5 12 3.5s-7.5 0-9.4.6A3 3 0 0 0 .5 6.2 31 31 0 0 0 0 12a31 31 0 0 0 .5 5.8 3 3 0 0 0 2.1 2.1c1.9.6 9.4.6 9.4.6s7.5 0 9.4-.6a3 3 0 0 0 2.1-2.1A31 31 0 0 0 24 12a31 31 0 0 0-.5-5.8zM9.75 15.5v-7l6.25 3.5-6.25 3.5z"/></svg>
+  </a>
+  <a href="https://instagram.com/winnerschapelomaha" target="_blank" class="sf-btn sf-instagram" title="Instagram">
+    <svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.6 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9C2.2 15.6 2.2 15.2 2.2 12s0-3.5.1-4.8C2.4 3.9 3.9 2.3 7.2 2.3 8.4 2.2 8.8 2.2 12 2.2zm0-2.2C8.7 0 8.3 0 7.1.1 2.7.3.3 2.7.1 7.1 0 8.3 0 8.7 0 12s0 3.7.1 4.9C.3 21.3 2.7 23.7 7.1 23.9 8.3 24 8.7 24 12 24s3.7 0 4.9-.1c4.4-.2 6.8-2.6 7-7 .1-1.2.1-1.6.1-4.9s0-3.7-.1-4.9C23.7 2.7 21.3.3 16.9.1 15.7 0 15.3 0 12 0zm0 5.8a6.2 6.2 0 1 0 0 12.4A6.2 6.2 0 0 0 12 5.8zm0 10.2a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.4-11.8a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg>
+  </a>
+  <a href="https://tiktok.com/@winnerschapelomaha" target="_blank" class="sf-btn sf-tiktok" title="TikTok">
+    <svg viewBox="0 0 24 24"><path d="M19.6 3.3A4.5 4.5 0 0 1 15.1 0h-3.3v15.6a2.6 2.6 0 0 1-2.6 2.2 2.6 2.6 0 0 1-2.6-2.6 2.6 2.6 0 0 1 2.6-2.6c.3 0 .5 0 .8.1V9.3a6 6 0 0 0-.8-.1 5.9 5.9 0 0 0-5.9 5.9 5.9 5.9 0 0 0 5.9 5.9 5.9 5.9 0 0 0 5.9-5.9V8.1a7.8 7.8 0 0 0 4.5 1.4V6.2a4.5 4.5 0 0 1-3-2.9z"/></svg>
+  </a>
+  <a href="https://twitter.com/WinnerChapelNE" target="_blank" class="sf-btn sf-twitter" title="Twitter / X">
+    <svg viewBox="0 0 24 24"><path d="M18.3 0h3.5l-7.6 8.7L23 24h-7L10.6 15.6 4.4 24H.9l8.1-9.3L0 0h7.2l5.5 7.3L18.3 0zm-1.2 21.6h1.9L6.9 2h-2L17.1 21.6z"/></svg>
+  </a>
+  <a href="https://facebook.com/WinnerChapelOmaha" target="_blank" class="sf-btn sf-facebook" title="Facebook">
+    <svg viewBox="0 0 24 24"><path d="M24 12.1C24 5.4 18.6 0 12 0S0 5.4 0 12.1C0 18.1 4.4 23 10.1 24v-8.4H7.1v-3.5h3V9.4c0-3 1.8-4.7 4.5-4.7 1.3 0 2.7.2 2.7.2v3H15.8c-1.5 0-2 .9-2 1.9v2.3h3.4l-.5 3.5h-2.9V24C19.6 23 24 18.1 24 12.1z"/></svg>
+  </a>
+  <a href="mailto:info@winnerschapel.org" class="sf-btn sf-email" title="Email Us">
+    <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+  </a>
+</div>
+
+<script>
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const mobileOverlay = document.getElementById('mobileOverlay');
+  const mobilePanel = document.getElementById('mobilePanel');
+  function openMenu(){hamburgerBtn.classList.add('open');mobileOverlay.classList.add('open');mobilePanel.classList.add('open');document.body.style.overflow='hidden'}
+  function closeMenu(){hamburgerBtn.classList.remove('open');mobileOverlay.classList.remove('open');mobilePanel.classList.remove('open');document.body.style.overflow=''}
+  hamburgerBtn.addEventListener('click',()=>hamburgerBtn.classList.contains('open')?closeMenu():openMenu());
+  mobileOverlay.addEventListener('click',closeMenu);
+</script>
+</body>
+</html>
