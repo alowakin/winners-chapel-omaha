@@ -6,7 +6,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap');
 
 /* ── FONT DEFAULTS ── */
-h1,h2,h3,h4,.nav-logo-text,.section-title,.footer-logo,.event-title,.group-name,.payment-name,.module-title{font-family:'Playfair Display',serif}
+h1,
+h2,
+h3,
+h4,
+.nav-logo-text,
+.section-title,
+.footer-logo,
+.event-title,
+.group-name,
+.payment-name,
+.module-title{font-family:'Playfair Display',serif}
 
 /* ── VARIABLES ── */
 :root{
@@ -32,8 +42,20 @@ nav{background:rgba(255,255,255,.98);border-bottom:1px solid #e2d9ce;box-shadow:
 .nav-logo-text{font-size:1rem;font-weight:700;color:#2c2c2c;line-height:1.2}
 .nav-logo-text span{color:var(--red)}
 .nav-links{display:flex;align-items:center;gap:2rem;list-style:none}
-.nav-links a{font-size:.72rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;text-decoration:none;transition:color .22s;position:relative}
-.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--red);transition:width .3s}
+.nav-links a{font-size:.72rem;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#555;
+  text-decoration:none;
+  transition:color .22s;
+  position:relative}
+.nav-links a::after{content:'';
+  position:absolute;
+  bottom:-4px;left:0;
+  width:0;height:1.5px;
+  background:var(--red);
+  transition:width .3s}
 .nav-links a:hover,.nav-links a.active{color:var(--red)}
 .nav-links a:hover::after,.nav-links a.active::after{width:100%}
 .nav-cta{background:var(--red)!important;color:#fff!important;padding:.48rem 1.3rem;font-size:.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;border:none;cursor:pointer;text-decoration:none;transition:background .22s}
