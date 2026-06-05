@@ -14,7 +14,8 @@
     .section-title{text-align:center}
     .section-line{margin-left:auto;margin-right:auto}
     .scripture{background:var(--red);color:#fff;padding:2rem 2.5rem;margin-bottom:3.5rem;position:relative;overflow:hidden;text-align:center}
-    .scripture::before{content:'✝';position:absolute;font-size:12rem;color:rgba(255,255,255,.06);right:-1rem;top:50%;transform:translateY(-50%);line-height:1}
+    .scripture-mark{position:absolute;right:-1rem;top:50%;transform:translateY(-50%);width:80px;height:80px;opacity:.06;pointer-events:none}
+    .scripture-mark svg{width:100%;height:100%;fill:currentColor}
     .scripture blockquote{font-style:italic;font-size:1rem;line-height:1.8;color:rgba(255,255,255,.92)}
     .scripture cite{display:block;margin-top:.6rem;font-style:normal;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.65)}
     .payment-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-bottom:4rem}
@@ -94,6 +95,7 @@
 
   <!-- Scripture -->
   <div class="scripture">
+    <div class="scripture-mark" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M10 2h4v8h8v4h-8v8h-4v-8H2V10h8z"/></svg></div>
     <blockquote>"Each of you should give what you have decided in your heart to give, not reluctantly or under compulsion, for God loves a cheerful giver."</blockquote>
     <cite>2 Corinthians 9:7</cite>
   </div>
@@ -191,7 +193,7 @@
 <script>
   function copyText(btn, text) {
     navigator.clipboard.writeText(text).then(() => {
-      btn.textContent = '✓ Copied!';
+      btn.innerHTML = '<span class="svg-icon check-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.3 5.7a1 1 0 0 0-1.4-1.4L9 14.2 5.1 10.3a1 1 0 1 0-1.4 1.4l4.7 4.7a1 1 0 0 0 1.4 0l10.5-10.5z"/></svg></span> Copied!';
       btn.classList.add('copied');
       setTimeout(() => { btn.textContent = text.includes('$') ? 'Copy $Cashtag' : 'Copy Email'; btn.classList.remove('copied'); }, 2500);
     });

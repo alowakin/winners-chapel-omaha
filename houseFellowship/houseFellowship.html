@@ -27,8 +27,8 @@
     .group-badge{font-size:.58rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;background:rgba(255,255,255,.15);color:#fff;padding:.18rem .55rem;border:1px solid rgba(255,255,255,.25)}
     .group-body{padding:1.4rem 1.5rem}
     .group-name{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;color:var(--text);margin-bottom:.3rem}
-    .group-leader{font-size:.75rem;color:var(--gold);margin-bottom:.8rem;font-weight:600} .group-leader::before{content:'👤 '}
-    .group-address{font-size:.8rem;color:var(--text-mid);margin-bottom:.5rem;line-height:1.5} .group-address::before{content:'📍 '}
+    .group-leader{font-size:.75rem;color:var(--gold);margin-bottom:.8rem;font-weight:600;display:inline-flex;align-items:center;gap:.35rem}
+    .group-address{font-size:.8rem;color:var(--text-mid);margin-bottom:.5rem;line-height:1.5;display:inline-flex;align-items:center;gap:.35rem}
     .group-desc{font-size:.78rem;color:var(--text-light);line-height:1.7;margin-bottom:1.1rem;border-top:1px solid var(--border);padding-top:.9rem}
     .group-spots{font-size:.7rem;color:var(--text-light);margin-bottom:1rem}
     .group-spots span{color:var(--red);font-weight:600}
@@ -131,8 +131,8 @@
       </div>
       <div class="group-body">
         <div class="group-name">Power House</div>
-        <div class="group-leader">Sis. XXXXX</div>
-        <div class="group-address">12706 Westchester Plaza, Omaha NE 68154</div>
+        <div class="group-leader"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>Sis. XXXXX</div>
+        <div class="group-address"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>12706 Westchester Plaza, Omaha NE 68154</div>
         <div class="group-desc">A vibrant group focused on deep prayer and Word study. Open to all ages. Light refreshments served.</div>
         <div class="group-spots">Spots available: <span>4 remaining</span></div>
         <button class="btn-join" onclick="prefillGroup('Faith & Fire Group')">Join This Group</button>
@@ -146,8 +146,8 @@
       </div>
       <div class="group-body">
         <div class="group-name">Shekinah Glory House</div>
-        <div class="group-leader">Sis. XXXXXXX</div>
-        <div class="group-address">19006 N Street, Omaha NE 68135</div>
+        <div class="group-leader"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>Sis. XXXXXXX</div>
+        <div class="group-address"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>19006 N Street, Omaha NE 68135</div>
         <div class="group-desc">A vibrant group focused on deep prayer and Word study. Open to all ages. Light refreshments served.</div>
         <div class="group-spots">Spots available: <span>Open</span></div>
         <button class="btn-join" onclick="prefillGroup('Covenant Women\'s Circle')">Join This Group</button>
@@ -161,8 +161,8 @@
       </div>
       <div class="group-body">
         <div class="group-name">Resurrection House</div>
-        <div class="group-leader">Bro. XXXXXXXX</div>
-        <div class="group-address">5800 South 77th Street Lincoln, NE 68516</div>
+        <div class="group-leader"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>Bro. XXXXXXXX</div>
+        <div class="group-address"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>5800 South 77th Street Lincoln, NE 68516</div>
         <div class="group-desc">A vibrant group focused on deep prayer and Word study. Open to all ages. Light refreshments served.</div>
         <div class="group-spots">Spots available: <span>6 remaining</span></div>
         <button class="btn-join" onclick="prefillGroup('Men of Valor')">Join This Group</button>
@@ -176,8 +176,8 @@
       </div>
       <div class="group-body">
         <div class="group-name">Glory House</div>
-        <div class="group-leader">Bro. XXXXXXX</div>
-        <div class="group-address">7809 Harney Street, Apt. 142, Omaha NE 68114</div>
+        <div class="group-leader"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>Bro. XXXXXXX</div>
+        <div class="group-address"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>7809 Harney Street, Apt. 142, Omaha NE 68114</div>
         <div class="group-desc">A vibrant group focused on deep prayer and Word study. Open to all ages. Light refreshments served.</div>
         <div class="group-spots">Spots available: <span>Open</span></div>
         <button class="btn-join" onclick="prefillGroup('The Upper Room')">Join This Group</button>
@@ -191,8 +191,8 @@
       </div>
       <div class="group-body">
         <div class="group-name">Reginald & Medina Croom</div>
-        <div class="group-leader">Bro. XXXXXXXXX</div>
-        <div class="group-address">5208 N 48th Avenue Omaha NE 68104</div>
+        <div class="group-leader"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 20c0-4 4-6 8-6s8 2 8 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>Bro. XXXXXXXXX</div>
+        <div class="group-address"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>5208 N 48th Avenue Omaha NE 68104</div>
         <div class="group-desc">A vibrant group focused on deep prayer and Word study. Open to all ages. Light refreshments served.</div>
         <div class="group-spots">Spots available: <span>8 remaining</span></div>
         <button class="btn-join" onclick="prefillGroup('Generations Family Group')">Join This Group</button>
@@ -233,7 +233,7 @@
       <button class="btn-submit" onclick="submitJoin()">Send Request</button>
     </div>
     <div class="form-success" id="joinSuccess">
-      <div class="check">✅</div>
+      <div class="check"><span class="svg-icon check-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.3 5.7a1 1 0 0 0-1.4-1.4L9 14.2 5.1 10.3a1 1 0 1 0-1.4 1.4l4.7 4.7a1 1 0 0 0 1.4 0l10.5-10.5z"/></svg></span></div>
       <h4>Request <span>Received!</span></h4>
       <p>Thank you! The group leader will contact you within 48 hours.<br/>We're excited to welcome you into the family. God bless you!</p>
     </div>

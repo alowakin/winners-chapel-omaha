@@ -25,7 +25,7 @@
     .event-title{font-family:'Playfair Display',serif;font-size:1rem;font-weight:600;margin-bottom:.45rem;color:var(--text)}
     .event-desc{font-size:.81rem;color:var(--text-mid);line-height:1.7;margin-bottom:.9rem}
     .event-footer{display:flex;align-items:center;justify-content:space-between}
-    .event-location{font-size:.7rem;color:var(--text-light)} .event-location::before{content:'📍 '}
+    .event-location{font-size:.7rem;color:var(--text-light);display:inline-flex;align-items:center;gap:.35rem}
     .btn-register{background:transparent;border:1.5px solid var(--red);color:var(--red);padding:.38rem .95rem;font-family:'Inter',sans-serif;font-size:.68rem;font-weight:600;letter-spacing:.11em;text-transform:uppercase;cursor:pointer;transition:all .22s}
     .btn-register:hover{background:var(--red);color:#fff}
     .loading{text-align:center;padding:3rem;color:var(--text-light);font-size:.88rem}
@@ -123,7 +123,7 @@
         </button>
       </div>
       <div class="form-success" id="formSuccess">
-        <div class="check">✅</div>
+        <div class="check"><span class="svg-icon check-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M20.3 5.7a1 1 0 0 0-1.4-1.4L9 14.2 5.1 10.3a1 1 0 1 0-1.4 1.4l4.7 4.7a1 1 0 0 0 1.4 0l10.5-10.5z"/></svg></span></div>
         <h4>You're <span>Registered!</span></h4>
         <p>Thank you, <span class="highlight" id="successName"></span>!<br/>
         Registered for <span class="highlight" id="successEvent"></span>.<br/><br/>
@@ -186,7 +186,7 @@
   async function loadEvents() {
     const today = new Date().toISOString().split('T')[0];
     const { data, error } = await supabase.from('events').select('*').gte('date', today).order('date',{ascending:true});
-    if (error) { document.getElementById('eventsList').innerHTML = `<div class="empty-state"><div class="icon">⚠️</div><p>Could not load events.</p></div>`; return; }
+    if (error) { document.getElementById('eventsList').innerHTML = `<div class="empty-state"><div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2 2 20h20L12 2zm0 14a1.2 1.2 0 1 1 0 2.4A1.2 1.2 0 0 1 12 16zm1-4h-2V8h2v4z"/></svg></div><p>Could not load events.</p></div>`; return; }
     allEvents = data;
     renderEvents(data);
     populateSelect(data);
@@ -195,7 +195,7 @@
   function renderEvents(events) {
     const list = document.getElementById('eventsList');
     const filtered = currentFilter === 'all' ? events : events.filter(e => e.category === currentFilter);
-    if (!filtered.length) { list.innerHTML = `<div class="empty-state"><div class="icon">📅</div><p>No upcoming events here.<br/>Check back soon!</p></div>`; return; }
+    if (!filtered.length) { list.innerHTML = `<div class="empty-state"><div class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M7 2h10a2 2 0 0 1 2 2v2H5V4a2 2 0 0 1 2-2zm11 6V6H6v2H4v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8h-2zM7 13h10v2H7v-2zm0 4h6v2H7v-2z"/></svg></div><p>No upcoming events here.<br/>Check back soon!</p></div>`; return; }
     list.innerHTML = filtered.map((ev, i) => {
       const d = new Date(ev.date + 'T00:00:00');
       return `
@@ -208,12 +208,12 @@
           <div class="event-content">
             <div class="event-meta">
               <span class="event-tag">${ev.category}</span>
-              <span class="event-time-txt">⏰ ${ev.time}</span>
+              <span class="event-time-txt"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>${ev.time}</span>
             </div>
             <div class="event-title">${ev.title}</div>
             <p class="event-desc">${ev.description||''}</p>
             <div class="event-footer">
-              <span class="event-location">${ev.location}</span>
+              <span class="event-location"><span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="currentColor" d="M12 2C8.1 2 5 5.1 5 9c0 5.2 6.6 11.9 6.8 12.1.2.1.4.1.6 0C12.4 20.9 19 14.2 19 9c0-3.9-3.1-7-7-7zm0 11.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></svg></span>${ev.location}</span>
               <button class="btn-register" onclick="window.selectEvent('${ev.id}','${ev.title.replace(/'/g,"\\'")}')">Register</button>
             </div>
           </div>
@@ -284,13 +284,20 @@
     const links = document.getElementById('socialLinks');
     const btn   = document.getElementById('socialToggle');
     links.classList.toggle('open');
-    btn.textContent = links.classList.contains('open') ? '✕' : '☰';
+    if (btn) {
+      btn.innerHTML = links.classList.contains('open')
+        ? '<span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M6 6l12 12M18 6L6 18"/></svg></span>'
+        : '<span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg></span>';
+    }
   }
   document.addEventListener('click', e => {
     const float = document.querySelector('.social-float');
     if (!float.contains(e.target)) {
       document.getElementById('socialLinks').classList.remove('open');
-      document.getElementById('socialToggle').textContent = '☰';
+      const toggleBtn = document.getElementById('socialToggle');
+      if (toggleBtn) {
+        toggleBtn.innerHTML = '<span class="svg-icon" aria-hidden="true"><svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke="currentColor" stroke-width="2" stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"/></svg></span>';
+      }
     }
   });
 </script>
