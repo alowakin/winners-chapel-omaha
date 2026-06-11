@@ -95,12 +95,40 @@
     .no-events{grid-column:1/-1;text-align:center;padding:3rem;color:var(--text-light);font-size:.88rem}
     .no-events .icon{font-size:2.5rem;display:block;margin-bottom:.8rem}
 
-    /* ── CTA ── */
-    .cta-band{background:var(--red);padding:4.5rem 2rem;text-align:center;position:relative;overflow:hidden}
-    .cta-band h2{font-size:clamp(1.5rem,3vw,2.4rem);font-weight:700;color:#fff;margin-bottom:.7rem}
-    .cta-band p{font-size:.95rem;font-weight:300;color:rgba(255,255,255,.82);margin-bottom:2rem}
+    /* ── CTA SPLIT ── */
+    .cta-split-band{background:var(--red);display:grid;grid-template-columns:1fr 1px 1fr;position:relative;overflow:hidden}
+    .cta-split-col{padding:4.5rem 3.5rem;text-align:left}
+    .cta-split-divider{background:rgba(255,255,255,.18);width:1px}
+    .cta-label{font-size:.62rem;font-weight:600;letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.6);display:block;margin-bottom:.8rem}
+    .cta-split-col h2{font-size:clamp(1.3rem,2.5vw,2rem);font-weight:700;color:#fff;margin-bottom:.6rem;line-height:1.2}
+    .cta-split-col p{font-size:.9rem;font-weight:300;color:rgba(255,255,255,.78);margin-bottom:1.4rem;line-height:1.7}
+    .cta-ride-box{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);padding:1.1rem 1.4rem;display:inline-block;max-width:320px}
+    .cta-ride-title{font-size:.68rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:rgba(255,255,255,.85);margin-bottom:.3rem}
+    .cta-ride-sub{font-size:.82rem;color:rgba(255,255,255,.72);margin-bottom:.5rem}
+    .cta-ride-phone{color:#fff;font-size:.98rem;font-weight:700;text-decoration:none;border-bottom:2px solid rgba(255,255,255,.45)}
+    /* prayer form */
+    .prayer-form-row{display:grid;grid-template-columns:1fr 1fr;gap:.8rem;margin-bottom:.8rem}
+    .prayer-field{margin-bottom:.8rem}
+    .prayer-field label{display:block;font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.7);margin-bottom:.3rem}
+    .prayer-field input,.prayer-field select,.prayer-field textarea{width:100%;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.25);color:#fff;padding:.55rem .75rem;font-size:.85rem;font-family:inherit;outline:none;transition:border-color .2s;box-sizing:border-box}
+    .prayer-field input::placeholder,.prayer-field textarea::placeholder{color:rgba(255,255,255,.38)}
+    .prayer-field select option{color:var(--text);background:#fff}
+    .prayer-field input:focus,.prayer-field select:focus,.prayer-field textarea:focus{border-color:rgba(255,255,255,.7)}
+    .prayer-field textarea{resize:vertical;min-height:80px}
+    .prayer-submit{background:#fff;color:var(--red);border:none;padding:.7rem 2rem;font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;transition:transform .2s,box-shadow .2s;margin-top:.3rem}
+    .prayer-submit:hover{transform:translateY(-2px);box-shadow:0 5px 18px rgba(0,0,0,.18)}
+    .prayer-success{display:none;text-align:center;padding:2rem 1rem}
+    .prayer-success svg{width:48px;height:48px;color:#fff;margin:0 auto 1rem;display:block}
+    .prayer-success h4{font-size:1.1rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+    .prayer-success p{font-size:.85rem;color:rgba(255,255,255,.78)}
     .btn-white{background:#fff;color:var(--red);border:none;padding:.85rem 2.2rem;font-size:.76rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;cursor:pointer;text-decoration:none;display:inline-block;transition:transform .2s,box-shadow .2s}
     .btn-white:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.2)}
+    @media(max-width:860px){
+      .cta-split-band{grid-template-columns:1fr;grid-template-rows:auto}
+      .cta-split-divider{width:100%;height:1px}
+      .cta-split-col{padding:3rem 1.5rem}
+      .prayer-form-row{grid-template-columns:1fr}
+    }
 
     @media(max-width:900px){
       .mission-stat-grid{grid-template-columns:repeat(2,1fr)}
@@ -267,15 +295,55 @@
   </div>
 </section>
 
-<!-- CTA -->
-<div class="cta-band">
-  <h2>Plan Your First Visit</h2>
-  <p>We would love to have you worship with us. Come as you are.</p>
-  <div style="margin-top:1.5rem;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.25);display:inline-block;padding:1rem 2rem;max-width:420px;width:100%">
-    <p style="font-size:.78rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.9);margin-bottom:.4rem">Need a Ride?</p>
-    <p style="font-size:.9rem;color:rgba(255,255,255,.82);margin-bottom:.6rem">We can help arrange transportation. Just give us a call.</p>
-    <a href="tel:+14029067585" style="color:#fff;font-size:1.05rem;font-weight:700;text-decoration:none;border-bottom:2px solid rgba(255,255,255,.5)">402-906-7585</a>
+<!-- CTA + PRAYER -->
+<div class="cta-split-band">
+
+  <!-- Left: Plan Your First Visit -->
+  <div class="cta-split-col cta-split-left">
+    <span class="cta-label">Join Us</span>
+    <h2>Plan Your First Visit</h2>
+    <p>We would love to have you worship with us. Come as you are.</p>
+    <div class="cta-ride-box">
+      <p class="cta-ride-title">Need a Ride?</p>
+      <p class="cta-ride-sub">We can help arrange transportation. Just give us a call.</p>
+      <a href="tel:+14029067585" class="cta-ride-phone">402-906-7585</a>
+    </div>
   </div>
+
+  <!-- Divider -->
+  <div class="cta-split-divider"></div>
+
+  <!-- Right: Prayer & Counseling -->
+  <div class="cta-split-col cta-split-right">
+    <span class="cta-label">We Care</span>
+    <h2>Prayer &amp; Counseling</h2>
+    <p>Submit a prayer request or reach out for pastoral counseling. We are here for you.</p>
+    <div id="prayerFormWrap">
+      <div class="prayer-form-row">
+        <div class="prayer-field"><label>Name</label><input type="text" id="pName" placeholder="Your name"/></div>
+        <div class="prayer-field"><label>Email</label><input type="email" id="pEmail" placeholder="your@email.com"/></div>
+      </div>
+      <div class="prayer-field">
+        <label>Type of Request</label>
+        <select id="pType">
+          <option value="">— Select —</option>
+          <option>Prayer Request</option>
+          <option>Pastoral Counseling</option>
+          <option>Family Support</option>
+          <option>Health &amp; Healing</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="prayer-field"><label>Your Message</label><textarea id="pMessage" rows="3" placeholder="Share what's on your heart…"></textarea></div>
+      <button class="prayer-submit" onclick="submitPrayer()">Submit Request</button>
+    </div>
+    <div class="prayer-success" id="prayerSuccess">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+      <h4>Request Received</h4>
+      <p>Thank you. Our team will be in touch with you soon. God bless you.</p>
+    </div>
+  </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -419,6 +487,21 @@
     <svg viewBox="0 0 24 24"><path d="M20 4H4C2.9 4 2 4.9 2 6v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
   </a>
 </div>
+
+<script>
+  function submitPrayer() {
+    const name = document.getElementById('pName').value.trim();
+    const email = document.getElementById('pEmail').value.trim();
+    const type = document.getElementById('pType').value;
+    const msg = document.getElementById('pMessage').value.trim();
+    if (!name) return alert('Please enter your name.');
+    if (!email || !email.includes('@')) return alert('Please enter a valid email.');
+    if (!type) return alert('Please select a request type.');
+    if (!msg) return alert('Please share your message.');
+    document.getElementById('prayerFormWrap').style.display = 'none';
+    document.getElementById('prayerSuccess').style.display = 'block';
+  }
+</script>
 
 <script>
   // ── MOBILE MENU ──
