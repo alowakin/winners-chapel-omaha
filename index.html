@@ -60,7 +60,7 @@
     .service-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--red);transform:scaleX(0);transform-origin:left;transition:transform .35s}
     .service-card:hover{transform:translateY(-4px);box-shadow:0 8px 30px rgba(0,0,0,.08)}
     .service-card:hover::before{transform:scaleX(1)}
-    .service-card .icon{font-size:1.9rem;margin-bottom:1rem}
+    .service-card .icon{width:2rem;height:2rem;margin-bottom:1rem;color:var(--red)}.service-card .icon svg{width:100%;height:100%}
     .service-card .day{font-size:.68rem;font-weight:600;letter-spacing:.28em;text-transform:uppercase;color:var(--gold)}
     .service-card .time{font-size:1.5rem;font-weight:700;color:var(--text);margin:.35rem 0}
     .service-card .name{font-size:.8rem;color:var(--text-mid)}
@@ -238,13 +238,13 @@
     <h2 class="section-title">Service <span>Times</span></h2>
     <div class="section-line" style="margin:1.2rem auto;"></div>
     <div class="service-cards">
-      <div class="service-card"><div class="icon">🙏</div><div class="day">Sunday</div><div class="time">8:00 AM</div><div class="name">Upper Room</div></div>
-      <div class="service-card"><div class="icon">🕊️</div><div class="day">Sunday</div><div class="time">9:00 AM</div><div class="name">Worship Service</div></div>
-      <div class="service-card"><div class="icon">✝️</div><div class="day">Wednesday</div><div class="time">6:00 PM</div><div class="name">Midweek Communion Service</div></div>
-      <div class="service-card"><div class="icon">⏰</div><div class="day">Mon – Fri</div><div class="time">5:30 AM</div><div class="name">Covenant Hour of Prayer <span style="display:block;font-size:.72rem;color:var(--text-light)">5:30 – 6:30 AM</span></div></div>
-      <div class="service-card"><div class="icon">🔥</div><div class="day">1st Wed · Thu · Fri</div><div class="time">6:00 PM</div><div class="name">Spiritual Week of Emphasis</div></div>
-      <div class="service-card"><div class="icon">🤝</div><div class="day">Saturday</div><div class="time">9:00 AM</div><div class="name">Covenant Outreach <span style="display:block;font-size:.72rem;color:var(--text-light)">9:00 – 10:00 AM</span></div></div>
-      <div class="service-card"><div class="icon">🏛️</div><div class="day">1st Saturday</div><div class="time">9:00 AM</div><div class="name">Leadership Empowerment Summit</div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10 10-4.5 10-10S17.5 2 12 2z"/><path d="M12 6v6l4 2"/></svg></div><div class="day">Sunday</div><div class="time">8:00 AM</div><div class="name">Upper Room</div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12"/><path d="M5 12H2a10 10 0 0 0 20 0h-3"/><path d="M8 5.2A8 8 0 0 1 12 4a8 8 0 0 1 8 8"/><path d="M4 8a8 8 0 0 1 4-3.8"/></svg></div><div class="day">Sunday</div><div class="time">9:00 AM</div><div class="name">Worship Service</div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M2 12h20"/></svg></div><div class="day">Wednesday</div><div class="time">6:00 PM</div><div class="name">Midweek Communion Service</div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div><div class="day">Mon – Fri</div><div class="time">5:30 AM</div><div class="name">Covenant Hour of Prayer <span style="display:block;font-size:.72rem;color:var(--text-light)">5:30 – 6:30 AM</span></div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg></div><div class="day">1st Wed · Thu · Fri</div><div class="time">6:00 PM</div><div class="name">Spiritual Week of Emphasis</div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div><div class="day">Saturday</div><div class="time">9:00 AM</div><div class="name">Covenant Outreach <span style="display:block;font-size:.72rem;color:var(--text-light)">9:00 – 10:00 AM</span></div></div>
+      <div class="service-card"><div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div><div class="day">1st Saturday</div><div class="time">9:00 AM</div><div class="name">Leadership Empowerment Summit</div></div>
     </div>
   </div>
 </section>
