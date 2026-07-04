@@ -100,6 +100,11 @@
     .reg-actions{display:flex;flex-direction:column;gap:.32rem;align-items:flex-end}
     .btn-mark{background:transparent;border:1px solid rgba(64,145,108,.4);color:#6ee7b7;font-size:.62rem;padding:.28rem .65rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;white-space:nowrap;transition:all .22s} .btn-mark:hover{background:rgba(64,145,108,.15)}
 
+    .prayer-type{font-size:.6rem;letter-spacing:.1em;text-transform:uppercase;padding:.12rem .5rem;border:1px solid rgba(139,0,0,.4);color:#fca5a5;display:inline-block;margin-bottom:.4rem}
+    .prayer-type.counseling{border-color:rgba(201,168,76,.4);color:var(--gold)}
+    .prayer-type.family{border-color:rgba(100,180,255,.3);color:#93c5fd}
+    .prayer-type.health{border-color:rgba(100,220,160,.3);color:#6ee7b7}
+    .btn-respond{background:transparent;border:1px solid rgba(201,168,76,.4);color:var(--gold);font-size:.62rem;padding:.28rem .65rem;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'Inter',sans-serif;font-weight:600;white-space:nowrap;transition:all .22s} .btn-respond:hover{background:rgba(201,168,76,.12)}
     .empty{text-align:center;padding:3rem;color:var(--white-dim);font-size:.85rem}
     .loading{text-align:center;padding:2.5rem;color:var(--white-dim);font-size:.85rem}
     .spinner{display:inline-block;width:12px;height:12px;border:2px solid var(--red);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin-left:8px;vertical-align:middle}
@@ -143,6 +148,9 @@
     <button class="tab active" onclick="switchTab('events',this)">Events</button>
     <button class="tab" id="regTab" onclick="switchTab('registrations',this)">
       Registrations <span class="tab-badge" id="unseenBadge" style="display:none">0</span>
+    </button>
+    <button class="tab" id="prayerTab" onclick="switchTab('prayer',this)">
+      Prayer Requests <span class="tab-badge" id="prayerBadge" style="display:none">0</span>
     </button>
   </div>
 
@@ -223,6 +231,20 @@
     </div>
   </div>
 
+  <!-- TAB: PRAYER REQUESTS -->
+  <div class="tab-panel" id="tab-prayer">
+    <div class="reg-header">
+      <h3>Prayer <span>Requests</span></h3>
+      <div class="reg-filter">
+        <button class="reg-filter-btn active" onclick="filterPrayer(this,'all')">All</button>
+        <button class="reg-filter-btn" onclick="filterPrayer(this,'new')">New</button>
+        <button class="reg-filter-btn" onclick="filterPrayer(this,'responded')">Responded</button>
+      </div>
+    </div>
+    <div class="reg-stats" id="prayerStats"></div>
+    <div id="prayerList"><div class="loading">Loading <span class="spinner"></span></div></div>
+  </div>
+
   <!-- TAB: REGISTRATIONS -->
   <div class="tab-panel" id="tab-registrations">
     <div class="reg-header">
@@ -258,6 +280,8 @@
       document.getElementById('adminScreen').style.display = 'flex';
       loadEvents(); loadRegistrations();
       setInterval(loadRegistrations, 30000);
+    loadPrayerRequests();
+    setInterval(loadPrayerRequests, 30000);
     } else { document.getElementById('loginError').textContent = 'Incorrect password.'; }
   };
   window.logout = () => {
@@ -503,6 +527,106 @@
     if (error) { showToast('Delete failed', 'error'); return; }
     allRegs = allRegs.filter(r => r.id !== id);
     renderRegistrations(); showToast('Registration deleted.', 'success');
+  };
+
+  // ── PRAYER REQUESTS ──
+  let allPrayers = [], prayerFilter = 'all';
+
+  async function loadPrayerRequests() {
+    const { data, error } = await supabase
+      .from('prayer_requests')
+      .select('*')
+      .order('submitted_at', { ascending: false });
+    if (error) return;
+    allPrayers = data;
+    const newCount = data.filter(p => !p.seen).length;
+    const badge = document.getElementById('prayerBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+    renderPrayerRequests();
+  }
+
+  function renderPrayerRequests() {
+    const filtered = prayerFilter === 'new'
+      ? allPrayers.filter(p => !p.seen)
+      : prayerFilter === 'responded'
+      ? allPrayers.filter(p => p.responded)
+      : allPrayers;
+
+    const total      = allPrayers.length;
+    const newCount   = allPrayers.filter(p => !p.seen).length;
+    const responded  = allPrayers.filter(p => p.responded).length;
+
+    document.getElementById('prayerStats').innerHTML = `
+      <div class="stat"><div class="num">${total}</div><div class="lbl">Total</div></div>
+      <div class="stat"><div class="num" style="color:#fca5a5">${newCount}</div><div class="lbl">New</div></div>
+      <div class="stat"><div class="num" style="color:var(--gold)">${responded}</div><div class="lbl">Responded</div></div>`;
+
+    const list = document.getElementById('prayerList');
+    if (!filtered.length) { list.innerHTML = '<div class="empty">No prayer requests yet.</div>'; return; }
+
+    list.innerHTML = filtered.map(p => {
+      const dt      = new Date(p.submitted_at);
+      const dateStr = `${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()} @ ${dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+      const initials = p.name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      const typeClass = p.type.toLowerCase().includes('counsel') ? 'counseling'
+                      : p.type.toLowerCase().includes('family')  ? 'family'
+                      : p.type.toLowerCase().includes('health')  ? 'health'
+                      : '';
+      return `
+        <div class="reg-card ${p.seen ? '' : 'unseen'}" id="prayer-${p.id}">
+          ${!p.seen ? '<span class="new-badge">NEW</span>' : ''}
+          <div class="reg-avatar" style="${p.responded ? 'background:rgba(201,168,76,.5)' : ''}">${initials}</div>
+          <div>
+            <div class="reg-name">${p.name}</div>
+            <div class="reg-email">${p.email}</div>
+            <div class="reg-pills" style="margin-bottom:.45rem">
+              <span class="prayer-type ${typeClass}">${p.type}</span>
+              <span class="reg-pill">${dateStr}</span>
+              ${p.responded ? '<span class="reg-pill" style="border-color:rgba(201,168,76,.4);color:var(--gold)">Responded</span>' : ''}
+            </div>
+            <div class="reg-message">"${p.message}"</div>
+          </div>
+          <div class="reg-actions">
+            ${!p.seen
+              ? `<button class="btn-mark" onclick="window.markPrayerSeen('${p.id}')">Mark Seen</button>`
+              : ''}
+            ${!p.responded
+              ? `<button class="btn-respond" onclick="window.markPrayerResponded('${p.id}')">Responded</button>`
+              : '<span style="font-size:.63rem;color:var(--gold)">DONE</span>'}
+            <button class="btn btn-danger" onclick="window.deletePrayer('${p.id}')">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  window.filterPrayer = (btn, filter) => {
+    document.querySelectorAll('#tab-prayer .reg-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); prayerFilter = filter; renderPrayerRequests();
+  };
+
+  window.markPrayerSeen = async (id) => {
+    const { error } = await supabase.from('prayer_requests').update({ seen: true }).eq('id', id);
+    if (error) { showToast('Failed to update', 'error'); return; }
+    allPrayers = allPrayers.map(p => p.id === id ? { ...p, seen: true } : p);
+    renderPrayerRequests();
+    const newCount = allPrayers.filter(p => !p.seen).length;
+    const badge = document.getElementById('prayerBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+  };
+
+  window.markPrayerResponded = async (id) => {
+    const { error } = await supabase.from('prayer_requests').update({ seen: true, responded: true }).eq('id', id);
+    if (error) { showToast('Failed to update', 'error'); return; }
+    allPrayers = allPrayers.map(p => p.id === id ? { ...p, seen: true, responded: true } : p);
+    renderPrayerRequests(); showToast('Marked as responded.', 'success');
+  };
+
+  window.deletePrayer = async (id) => {
+    if (!confirm('Delete this prayer request?')) return;
+    const { error } = await supabase.from('prayer_requests').delete().eq('id', id);
+    if (error) { showToast('Delete failed', 'error'); return; }
+    allPrayers = allPrayers.filter(p => p.id !== id);
+    renderPrayerRequests(); showToast('Request deleted.', 'success');
   };
 
   function showToast(msg, type = 'success') {

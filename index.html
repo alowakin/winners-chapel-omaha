@@ -488,19 +488,42 @@
   </a>
 </div>
 
-<script>
-  function submitPrayer() {
-    const name = document.getElementById('pName').value.trim();
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(
+    'https://ydgcaquqnetawssqlnkj.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZ2NhcXVxbmV0YXdzc3FsbmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMzEwMjgsImV4cCI6MjA5MTcwNzAyOH0.Ep15_AoOK-Rcgk4LyoZBJq5cQVr7Hx4k-RcS_EKWDAM'
+  );
+
+  window.submitPrayer = async () => {
+    const name  = document.getElementById('pName').value.trim();
     const email = document.getElementById('pEmail').value.trim();
-    const type = document.getElementById('pType').value;
-    const msg = document.getElementById('pMessage').value.trim();
-    if (!name) return alert('Please enter your name.');
+    const type  = document.getElementById('pType').value;
+    const msg   = document.getElementById('pMessage').value.trim();
+
+    if (!name)                          return alert('Please enter your name.');
     if (!email || !email.includes('@')) return alert('Please enter a valid email.');
-    if (!type) return alert('Please select a request type.');
-    if (!msg) return alert('Please share your message.');
+    if (!type)                          return alert('Please select a request type.');
+    if (!msg)                           return alert('Please share your message.');
+
+    const btn = document.querySelector('.prayer-submit');
+    btn.textContent = 'Sending…';
+    btn.disabled = true;
+
+    const { error } = await supabase.from('prayer_requests').insert([
+      { name, email, type, message: msg }
+    ]);
+
+    if (error) {
+      btn.textContent = 'Submit Request';
+      btn.disabled = false;
+      alert('Something went wrong. Please try again.');
+      return;
+    }
+
     document.getElementById('prayerFormWrap').style.display = 'none';
-    document.getElementById('prayerSuccess').style.display = 'block';
-  }
+    document.getElementById('prayerSuccess').style.display  = 'block';
+  };
 </script>
 
 <script>
