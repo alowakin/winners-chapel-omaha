@@ -157,6 +157,9 @@
     <button class="tab" id="fcTab" onclick="switchTab('fc',this)">
       Foundation Class <span class="tab-badge" id="fcBadge" style="display:none">0</span>
     </button>
+    <button class="tab" id="fjTab" onclick="switchTab('fj',this)">
+      Fellowship Requests <span class="tab-badge" id="fjBadge" style="display:none">0</span>
+    </button>
   </div>
 
   <!-- TAB: EVENTS -->
@@ -250,6 +253,19 @@
     <div id="prayerList"><div class="loading">Loading <span class="spinner"></span></div></div>
   </div>
 
+  <!-- TAB: FELLOWSHIP JOIN REQUESTS -->
+  <div class="tab-panel" id="tab-fj">
+    <div class="reg-header">
+      <h3>Fellowship <span>Join Requests</span></h3>
+      <div class="reg-filter">
+        <button class="reg-filter-btn active" onclick="filterFJ(this,'all')">All</button>
+        <button class="reg-filter-btn" onclick="filterFJ(this,'new')">New</button>
+      </div>
+    </div>
+    <div class="reg-stats" id="fjStats"></div>
+    <div id="fjList"><div class="loading">Loading <span class="spinner"></span></div></div>
+  </div>
+
   <!-- TAB: FOUNDATION CLASS ENROLLMENTS -->
   <div class="tab-panel" id="tab-fc">
     <div class="reg-header">
@@ -296,10 +312,11 @@
     if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminScreen').style.display = 'flex';
-      loadEvents(); loadRegistrations(); loadPrayerRequests(); loadFCEnrollments();
+      loadEvents(); loadRegistrations(); loadPrayerRequests(); loadFCEnrollments(); loadFJRequests();
       setInterval(loadRegistrations, 30000);
       setInterval(loadPrayerRequests, 30000);
       setInterval(loadFCEnrollments, 30000);
+      setInterval(loadFJRequests, 30000);
     } else { document.getElementById('loginError').textContent = 'Incorrect password.'; }
   };
   window.logout = () => {
@@ -645,6 +662,85 @@
     if (error) { showToast('Delete failed', 'error'); return; }
     allPrayers = allPrayers.filter(p => p.id !== id);
     renderPrayerRequests(); showToast('Request deleted.', 'success');
+  };
+
+  // ── FELLOWSHIP JOIN REQUESTS ──
+  let allFJ = [], fjFilter = 'all';
+
+  async function loadFJRequests() {
+    const { data, error } = await supabase
+      .from('fellowship_join_requests')
+      .select('*')
+      .order('submitted_at', { ascending: false });
+    if (error) return;
+    allFJ = data;
+    const newCount = data.filter(r => !r.seen).length;
+    const badge = document.getElementById('fjBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+    renderFJ();
+  }
+
+  function renderFJ() {
+    const filtered = fjFilter === 'new' ? allFJ.filter(r => !r.seen) : allFJ;
+    const total    = allFJ.length;
+    const newCount = allFJ.filter(r => !r.seen).length;
+
+    document.getElementById('fjStats').innerHTML = `
+      <div class="stat"><div class="num">${total}</div><div class="lbl">Total</div></div>
+      <div class="stat"><div class="num" style="color:#fca5a5">${newCount}</div><div class="lbl">New</div></div>`;
+
+    const list = document.getElementById('fjList');
+    if (!filtered.length) { list.innerHTML = '<div class="empty">No join requests yet.</div>'; return; }
+
+    list.innerHTML = filtered.map(r => {
+      const dt      = new Date(r.submitted_at);
+      const dateStr = `${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()} @ ${dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+      const fullName = `${r.first_name} ${r.last_name}`.trim();
+      const initials = fullName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      return `
+        <div class="reg-card ${r.seen ? '' : 'unseen'}" id="fj-${r.id}">
+          ${!r.seen ? '<span class="new-badge">NEW</span>' : ''}
+          <div class="reg-avatar">${initials}</div>
+          <div>
+            <div class="reg-name">${fullName}</div>
+            <div class="reg-email">${r.email}${r.phone ? ` &nbsp;|&nbsp; ${r.phone}` : ''}</div>
+            <div class="reg-pills">
+              <span class="reg-pill event-pill">${r.group_name}</span>
+              <span class="reg-pill">${dateStr}</span>
+            </div>
+            ${r.message ? `<div class="reg-message">"${r.message}"</div>` : ''}
+          </div>
+          <div class="reg-actions">
+            ${!r.seen
+              ? `<button class="btn-mark" onclick="window.markFJSeen('${r.id}')">Mark Seen</button>`
+              : '<span style="font-size:.63rem;color:var(--white-dim)">SEEN</span>'}
+            <button class="btn btn-danger" onclick="window.deleteFJRequest('${r.id}')">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  window.filterFJ = (btn, filter) => {
+    document.querySelectorAll('#tab-fj .reg-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); fjFilter = filter; renderFJ();
+  };
+
+  window.markFJSeen = async (id) => {
+    const { error } = await supabase.from('fellowship_join_requests').update({ seen: true }).eq('id', id);
+    if (error) { showToast('Failed to update', 'error'); return; }
+    allFJ = allFJ.map(r => r.id === id ? { ...r, seen: true } : r);
+    renderFJ();
+    const newCount = allFJ.filter(r => !r.seen).length;
+    const badge = document.getElementById('fjBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+  };
+
+  window.deleteFJRequest = async (id) => {
+    if (!confirm('Delete this join request?')) return;
+    const { error } = await supabase.from('fellowship_join_requests').delete().eq('id', id);
+    if (error) { showToast('Delete failed', 'error'); return; }
+    allFJ = allFJ.filter(r => r.id !== id);
+    renderFJ(); showToast('Request deleted.', 'success');
   };
 
   // ── FOUNDATION CLASS ENROLLMENTS ──

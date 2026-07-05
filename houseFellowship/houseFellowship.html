@@ -278,32 +278,66 @@
   </div>
 </footer>
 
-<script>
-  function filterGroups(btn, day) {
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(
+    'https://ydgcaquqnetawssqlnkj.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZ2NhcXVxbmV0YXdzc3FsbmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMzEwMjgsImV4cCI6MjA5MTcwNzAyOH0.Ep15_AoOK-Rcgk4LyoZBJq5cQVr7Hx4k-RcS_EKWDAM'
+  );
+
+  window.filterGroups = (btn, day) => {
     document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
     document.querySelectorAll('.group-card').forEach(c => {
       c.style.display = (day === 'all' || c.dataset.day === day) ? 'block' : 'none';
     });
-  }
-  function prefillGroup(name) {
+  };
+
+  window.prefillGroup = (name) => {
     const sel = document.getElementById('jGroup');
     for (let i = 0; i < sel.options.length; i++) {
       if (sel.options[i].text.startsWith(name)) { sel.selectedIndex = i; break; }
     }
     document.getElementById('joinForm').scrollIntoView({ behavior: 'smooth', block: 'start' });
     document.getElementById('jFirst').focus();
-  }
-  function submitJoin() {
-    const first = document.getElementById('jFirst').value.trim();
-    const email = document.getElementById('jEmail').value.trim();
-    const group = document.getElementById('jGroup').value;
+  };
+
+  window.submitJoin = async () => {
+    const first   = document.getElementById('jFirst').value.trim();
+    const last    = document.getElementById('jLast').value.trim();
+    const email   = document.getElementById('jEmail').value.trim();
+    const phone   = document.getElementById('jPhone').value.trim();
+    const group   = document.getElementById('jGroup').value;
+    const message = document.getElementById('jMessage').value.trim();
+
     if (!first) return alert('Please enter your first name.');
     if (!email || !email.includes('@')) return alert('Please enter a valid email.');
     if (!group) return alert('Please select a group.');
+
+    const btn  = document.querySelector('#joinForm .btn-submit');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const { error } = await supabase.from('fellowship_join_requests').insert([{
+      first_name: first,
+      last_name:  last,
+      email,
+      phone:      phone   || null,
+      group_name: group,
+      message:    message || null
+    }]);
+
+    if (error) {
+      btn.disabled = false;
+      btn.textContent = orig;
+      alert('Something went wrong. Please try again.');
+      return;
+    }
+
     document.getElementById('joinForm').style.display = 'none';
     document.getElementById('joinSuccess').style.display = 'block';
-  }
+  };
 </script>
 <!-- SOCIAL FIXED ICONS -->
 <div class="social-fixed">
