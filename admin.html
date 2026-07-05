@@ -5,7 +5,7 @@
   <link rel="icon" type="image/jpeg" href="Image/LogoOmaha.jpg"/>
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin — Winner Chapel</title>
+  <title>Admin Winner Chapel</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
   <style>
     :root{--red:#8B0000;--red-bright:#B22222;--black:#0a0a0a;--black-mid:#111111;--black-soft:#1a1a1a;--gold:#c9a84c;--white:#f5f0eb;--white-dim:rgba(245,240,235,.70)}
@@ -123,7 +123,7 @@
 <div class="login-screen" id="loginScreen">
   <div class="login-box">
     <h2>Winner <span>Chapel</span></h2>
-    <p>Admin Panel — Enter your password to continue</p>
+    <p>Admin Panel Enter your password to continue</p>
     <div class="form-group">
       <label>Password</label>
       <input type="password" id="passwordInput" placeholder="••••••••" onkeydown="if(event.key==='Enter')login()"/>
@@ -224,9 +224,9 @@
       <!-- LIST -->
       <div>
         <div class="stats-row">
-          <div class="stat"><div class="num" id="statTotal">—</div><div class="lbl">Total</div></div>
-          <div class="stat"><div class="num" id="statUpcoming">—</div><div class="lbl">Upcoming</div></div>
-          <div class="stat"><div class="num" id="statPast">—</div><div class="lbl">Past</div></div>
+          <div class="stat"><div class="num" id="statTotal"></div><div class="lbl">Total</div></div>
+          <div class="stat"><div class="num" id="statUpcoming"></div><div class="lbl">Upcoming</div></div>
+          <div class="stat"><div class="num" id="statPast"></div><div class="lbl">Past</div></div>
         </div>
         <div id="adminEventsList"><div class="loading">Loading <span class="spinner"></span></div></div>
       </div>
@@ -358,12 +358,12 @@
       let durationText = '';
       if (ev.date_end && ev.date_end !== ev.date) {
         const diff = Math.round((new Date(ev.date_end) - new Date(ev.date)) / (1000*60*60*24));
-        durationText = `Multi-day — ${diff} day${diff !== 1 ? 's' : ''}`;
+        durationText = `Multi-day ${diff} day${diff !== 1 ? 's' : ''}`;
       }
 
       // Time range
       let timeDisplay = ev.time || '';
-      if (ev.time_end) timeDisplay += ` — ${ev.time_end}`;
+      if (ev.time_end) timeDisplay += ` ${ev.time_end}`;
 
       return `
         <div class="event-row" style="${past ? 'opacity:.42' : ''}">

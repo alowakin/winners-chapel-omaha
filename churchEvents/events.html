@@ -6,7 +6,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <!-- SEO -->
-  <meta name="description" content="Upcoming events at Winner Chapel at Omaha — worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
+  <meta name="description" content="Upcoming events at Winner Chapel at Omaha worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
   <meta name="keywords" content="church events omaha, winner chapel events, christian events omaha nebraska, worship service omaha"/>
   <meta name="author" content="Winner Chapel at Omaha"/>
   <link rel="canonical" href="https://wciomaha.org/churchEvents/events.html"/>
@@ -14,7 +14,7 @@
   <meta property="og:type" content="website"/>
   <meta property="og:site_name" content="Winner Chapel at Omaha"/>
   <meta property="og:title" content="Events | Winner Chapel at Omaha"/>
-  <meta property="og:description" content="Upcoming events at Winner Chapel at Omaha — worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
+  <meta property="og:description" content="Upcoming events at Winner Chapel at Omaha worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
   <meta property="og:url" content="https://wciomaha.org/churchEvents/events.html"/>
   <meta property="og:image" content="https://wciomaha.org/Image/CoverPhoto.png"/>
   <meta property="og:image:width" content="1200"/>
@@ -23,7 +23,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image"/>
   <meta name="twitter:title" content="Events | Winner Chapel at Omaha"/>
-  <meta name="twitter:description" content="Upcoming events at Winner Chapel at Omaha — worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
+  <meta name="twitter:description" content="Upcoming events at Winner Chapel at Omaha worship services, prayer meetings, fellowship gatherings, outreach programs, and special services. All are welcome."/>
   <meta name="twitter:image" content="https://wciomaha.org/Image/CoverPhoto.png"/>
   <title>Events | Winner Chapel at Omaha</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet"/>
@@ -88,8 +88,7 @@
       <li><a href="../index.html">Home</a></li>
       <li><a href="../churchEvents/events.html" class="active">Events</a></li>
       <li><a href="../houseFellowship/houseFellowship.html">House Fellowship</a></li>
-      <li><a href="../donation/give.html" class="nav-cta">Give</a></li>
-    </ul>
+      </ul>
     <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
       <span></span><span></span><span></span>
     </button>
@@ -104,7 +103,6 @@
   <a href="../houseFellowship/houseFellowship.html">House Fellowship</a>
   <a href="../foundationClass/foundationClass.html">Foundation Class</a>
   <a href="../aboutUs/about.html">About Us</a>
-  <a href="../donation/give.html" class="mobile-cta-link">Give Online</a>
   <div class="mobile-address">470 N 129th Street, Omaha<br/>402-906-7585</div>
 </div>
 <div class="page-hero">
@@ -131,7 +129,7 @@
     <div class="sidebar-card">
       <h3>Event <span>Registration</span></h3>
       <div id="regForm">
-        <div class="form-group"><label>Select Event</label><select id="eventSelect"><option value="">— Choose an event —</option></select></div>
+        <div class="form-group"><label>Select Event</label><select id="eventSelect"><option value=""> Choose an event </option></select></div>
         <div class="form-group"><label>Full Name</label><input type="text" id="regName" placeholder="Your full name"/></div>
         <div class="form-group"><label>Email</label><input type="email" id="regEmail" placeholder="your@email.com"/></div>
         <div class="form-group"><label>Phone (optional)</label><input type="tel" id="regPhone" placeholder="+1 (000) 000-0000"/></div>
@@ -156,8 +154,8 @@
 
     <div class="sidebar-card">
       <h3>Service <span>Times</span></h3>
-      <div class="info-row"><div><div class="info-label">Sunday Prayer</div><div class="info-value">8:00 AM — Upper Room</div></div></div>
-      <div class="info-row"><div><div class="info-label">Sunday Worship</div><div class="info-value">9:00 AM — Main Service</div></div></div>
+      <div class="info-row"><div><div class="info-label">Sunday Prayer</div><div class="info-value">8:00 AM Upper Room</div></div></div>
+      <div class="info-row"><div><div class="info-label">Sunday Worship</div><div class="info-value">9:00 AM Main Service</div></div></div>
       <div class="info-row"><div><div class="info-label">MidWeek Communion Service</div><div class="info-value">Wednesday, 6:00 PM</div></div></div>
       <div class="info-row"><div><div class="info-label">Covenant Hour of Prayer</div><div class="info-value">Monday to Friday, 5:30 AM</div></div></div>
     </div>
@@ -182,11 +180,7 @@
       <li><a href="#">Sunday 9:00 AM</a></li>
       <li><a href="#">MidWeek Communion Service</a></li>
     </ul></div>
-    <div class="footer-col"><h4>Give</h4><ul>
-      <li><a href="../donation/give.html">Online Giving</a></li>
-      <li><a href="../donation/give.html">Tithes & Offerings</a></li>
-    </ul></div>
-  </div>
+    </div>
   <div class="footer-bottom">
     <span>© 2025 Living Faith Church Worldwide at Omaha. All rights reserved. </span>
     <span>Built with faith </span>
@@ -245,10 +239,10 @@
 
   function populateSelect(events) {
     const sel = document.getElementById('eventSelect');
-    sel.innerHTML = '<option value="">— Choose an event —</option>';
+    sel.innerHTML = '<option value=""> Choose an event </option>';
     events.forEach(ev => {
       const d = new Date(ev.date + 'T00:00:00');
-      sel.innerHTML += `<option value="${ev.id}" data-title="${ev.title}">${ev.title} — ${MONTHS[d.getMonth()]} ${d.getDate()}</option>`;
+      sel.innerHTML += `<option value="${ev.id}" data-title="${ev.title}">${ev.title} ${MONTHS[d.getMonth()]} ${d.getDate()}</option>`;
     });
   }
 
