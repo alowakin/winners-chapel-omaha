@@ -230,15 +230,50 @@
   </div>
 </footer>
 
-<script>
-  function submitFC() {
+<script type="module">
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm';
+  const supabase = createClient(
+    'https://ydgcaquqnetawssqlnkj.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkZ2NhcXVxbmV0YXdzc3FsbmtqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzYxMzEwMjgsImV4cCI6MjA5MTcwNzAyOH0.Ep15_AoOK-Rcgk4LyoZBJq5cQVr7Hx4k-RcS_EKWDAM'
+  );
+
+  window.submitFC = async () => {
     const first = document.getElementById('fcFirst').value.trim();
+    const last  = document.getElementById('fcLast').value.trim();
     const email = document.getElementById('fcEmail').value.trim();
+    const phone = document.getElementById('fcPhone').value.trim();
+    const exp   = document.getElementById('fcExp').value;
+    const ref   = document.getElementById('fcRef').value;
+    const note  = document.getElementById('fcNote').value.trim();
+
     if (!first) return alert('Please enter your first name.');
     if (!email || !email.includes('@')) return alert('Please enter a valid email.');
+
+    const btn = document.querySelector('#fcForm .btn-submit');
+    const orig = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Submitting...';
+
+    const { error } = await supabase.from('foundation_class_enrollments').insert([{
+      first_name:    first,
+      last_name:     last,
+      email,
+      phone:         phone    || null,
+      believer_since: exp     || null,
+      referral:      ref      || null,
+      notes:         note     || null
+    }]);
+
+    if (error) {
+      btn.disabled = false;
+      btn.textContent = orig;
+      alert('Something went wrong. Please try again.');
+      return;
+    }
+
     document.getElementById('fcForm').style.display = 'none';
     document.getElementById('fcSuccess').style.display = 'block';
-  }
+  };
 </script>
 <!-- SOCIAL FIXED ICONS -->
 <div class="social-fixed">

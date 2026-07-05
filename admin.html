@@ -154,6 +154,9 @@
     <button class="tab" id="prayerTab" onclick="switchTab('prayer',this)">
       Prayer Requests <span class="tab-badge" id="prayerBadge" style="display:none">0</span>
     </button>
+    <button class="tab" id="fcTab" onclick="switchTab('fc',this)">
+      Foundation Class <span class="tab-badge" id="fcBadge" style="display:none">0</span>
+    </button>
   </div>
 
   <!-- TAB: EVENTS -->
@@ -247,6 +250,19 @@
     <div id="prayerList"><div class="loading">Loading <span class="spinner"></span></div></div>
   </div>
 
+  <!-- TAB: FOUNDATION CLASS ENROLLMENTS -->
+  <div class="tab-panel" id="tab-fc">
+    <div class="reg-header">
+      <h3>Foundation Class <span>Enrollments</span></h3>
+      <div class="reg-filter">
+        <button class="reg-filter-btn active" onclick="filterFC(this,'all')">All</button>
+        <button class="reg-filter-btn" onclick="filterFC(this,'new')">New</button>
+      </div>
+    </div>
+    <div class="reg-stats" id="fcStats"></div>
+    <div id="fcList"><div class="loading">Loading <span class="spinner"></span></div></div>
+  </div>
+
   <!-- TAB: REGISTRATIONS -->
   <div class="tab-panel" id="tab-registrations">
     <div class="reg-header">
@@ -280,10 +296,10 @@
     if (document.getElementById('passwordInput').value === ADMIN_PASSWORD) {
       document.getElementById('loginScreen').style.display = 'none';
       document.getElementById('adminScreen').style.display = 'flex';
-      loadEvents(); loadRegistrations();
+      loadEvents(); loadRegistrations(); loadPrayerRequests(); loadFCEnrollments();
       setInterval(loadRegistrations, 30000);
-    loadPrayerRequests();
-    setInterval(loadPrayerRequests, 30000);
+      setInterval(loadPrayerRequests, 30000);
+      setInterval(loadFCEnrollments, 30000);
     } else { document.getElementById('loginError').textContent = 'Incorrect password.'; }
   };
   window.logout = () => {
@@ -629,6 +645,86 @@
     if (error) { showToast('Delete failed', 'error'); return; }
     allPrayers = allPrayers.filter(p => p.id !== id);
     renderPrayerRequests(); showToast('Request deleted.', 'success');
+  };
+
+  // ── FOUNDATION CLASS ENROLLMENTS ──
+  let allFC = [], fcFilter = 'all';
+
+  async function loadFCEnrollments() {
+    const { data, error } = await supabase
+      .from('foundation_class_enrollments')
+      .select('*')
+      .order('enrolled_at', { ascending: false });
+    if (error) return;
+    allFC = data;
+    const newCount = data.filter(e => !e.seen).length;
+    const badge = document.getElementById('fcBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+    renderFC();
+  }
+
+  function renderFC() {
+    const filtered = fcFilter === 'new' ? allFC.filter(e => !e.seen) : allFC;
+    const total    = allFC.length;
+    const newCount = allFC.filter(e => !e.seen).length;
+
+    document.getElementById('fcStats').innerHTML = `
+      <div class="stat"><div class="num">${total}</div><div class="lbl">Total</div></div>
+      <div class="stat"><div class="num" style="color:#fca5a5">${newCount}</div><div class="lbl">New</div></div>`;
+
+    const list = document.getElementById('fcList');
+    if (!filtered.length) { list.innerHTML = '<div class="empty">No enrollments yet.</div>'; return; }
+
+    list.innerHTML = filtered.map(e => {
+      const dt      = new Date(e.enrolled_at);
+      const dateStr = `${MONTHS[dt.getMonth()]} ${dt.getDate()}, ${dt.getFullYear()} @ ${dt.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}`;
+      const fullName = `${e.first_name} ${e.last_name}`.trim();
+      const initials = fullName.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+      return `
+        <div class="reg-card ${e.seen ? '' : 'unseen'}" id="fc-${e.id}">
+          ${!e.seen ? '<span class="new-badge">NEW</span>' : ''}
+          <div class="reg-avatar">${initials}</div>
+          <div>
+            <div class="reg-name">${fullName}</div>
+            <div class="reg-email">${e.email}${e.phone ? ` &nbsp;|&nbsp; ${e.phone}` : ''}</div>
+            <div class="reg-pills">
+              ${e.believer_since ? `<span class="reg-pill event-pill">${e.believer_since}</span>` : ''}
+              ${e.referral ? `<span class="reg-pill">via ${e.referral}</span>` : ''}
+              <span class="reg-pill">${dateStr}</span>
+            </div>
+            ${e.notes ? `<div class="reg-message">"${e.notes}"</div>` : ''}
+          </div>
+          <div class="reg-actions">
+            ${!e.seen
+              ? `<button class="btn-mark" onclick="window.markFCSeen('${e.id}')">Mark Seen</button>`
+              : '<span style="font-size:.63rem;color:var(--white-dim)">SEEN</span>'}
+            <button class="btn btn-danger" onclick="window.deleteFCEnrollment('${e.id}')">Delete</button>
+          </div>
+        </div>`;
+    }).join('');
+  }
+
+  window.filterFC = (btn, filter) => {
+    document.querySelectorAll('#tab-fc .reg-filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active'); fcFilter = filter; renderFC();
+  };
+
+  window.markFCSeen = async (id) => {
+    const { error } = await supabase.from('foundation_class_enrollments').update({ seen: true }).eq('id', id);
+    if (error) { showToast('Failed to update', 'error'); return; }
+    allFC = allFC.map(e => e.id === id ? { ...e, seen: true } : e);
+    renderFC();
+    const newCount = allFC.filter(e => !e.seen).length;
+    const badge = document.getElementById('fcBadge');
+    newCount > 0 ? (badge.textContent = newCount, badge.style.display = 'inline') : (badge.style.display = 'none');
+  };
+
+  window.deleteFCEnrollment = async (id) => {
+    if (!confirm('Delete this enrollment?')) return;
+    const { error } = await supabase.from('foundation_class_enrollments').delete().eq('id', id);
+    if (error) { showToast('Delete failed', 'error'); return; }
+    allFC = allFC.filter(e => e.id !== id);
+    renderFC(); showToast('Enrollment deleted.', 'success');
   };
 
   function showToast(msg, type = 'success') {
