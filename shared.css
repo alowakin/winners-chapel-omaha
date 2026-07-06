@@ -94,6 +94,7 @@ footer{background:#2c2222;color:rgba(255,255,255,.6);padding:4rem 2rem 2rem}
 .footer-col ul li a{font-size:.8rem;color:rgba(255,255,255,.45);text-decoration:none;transition:color .22s}
 .footer-col ul li a:hover{color:#e87070}
 .footer-bottom{max-width:1100px;margin:2.5rem auto 0;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.08);display:flex;justify-content:space-between;font-size:.73rem;color:rgba(255,255,255,.22)}
+.footer-bottom a{color:rgba(255,255,255,.22);text-decoration:none;transition:color .22s}.footer-bottom a:hover{color:rgba(255,255,255,.6)}
 
 /* ── SOCIAL FIXED ICONS ── */
 .social-fixed{position:fixed;bottom:1.5rem;right:1.5rem;z-index:200;display:flex;flex-direction:column;gap:.4rem}
